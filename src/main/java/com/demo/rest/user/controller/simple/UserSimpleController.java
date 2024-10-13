@@ -39,11 +39,6 @@ public class UserSimpleController implements UserController {
     }
 
     @Override
-    public void createAvatar(UUID id, byte[] avatar) {
-        userService.createAvatar(id,avatar);
-    }
-
-    @Override
     public void putAvatar(UUID id, InputStream avatar) {
         userService.findById(id).ifPresentOrElse(
                 entity -> userService.updateAvatar(id, avatar),

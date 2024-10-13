@@ -24,9 +24,6 @@ public class UserService {
     public byte[] getAvatar(UUID uuid) {
         return userRepository.getAvatar(uuid);
     }
-    public void createAvatar(UUID uuid, byte[] avatar) {
-        userRepository.createAvatar(uuid, avatar);
-    }
     public void updateAvatar(UUID id, InputStream is) {
         userRepository.find(id).ifPresent(user -> {
             try {

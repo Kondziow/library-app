@@ -10,7 +10,6 @@ public interface UserController {
     GetUsersResponse getUsers();
     GetUserResponse getUser(UUID id);
     byte[] getAvatar(UUID id);
-    void createAvatar(UUID id,byte[] avatar);
     void putAvatar(UUID id, InputStream avatar);
     void deleteAvatar(UUID id);
 }

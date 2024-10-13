@@ -50,15 +50,4 @@ public class DataInitialization implements ServletContextListener {
         userService.create(Michal);
         userService.create(Kacper);
     }
-
-    @SneakyThrows
-    private byte[] getResourceAsByteArray(String name) {
-        try (InputStream is = this.getClass().getResourceAsStream(name)) {
-            if (is != null) {
-                return is.readAllBytes();
-            } else {
-                throw new IllegalStateException("Unable to get resource %s".formatted(name));
-            }
-        }
-    }
 }

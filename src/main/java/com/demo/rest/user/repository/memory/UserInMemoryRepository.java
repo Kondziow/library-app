@@ -22,7 +22,7 @@ public class UserInMemoryRepository implements UserRepository {
 
     @Override
     public Optional<User> find(UUID id) {
-        return this.dataStore.findAllUsers().stream()
+        return dataStore.findAllUsers().stream()
                 .filter((user) -> user.getId().equals(id))
                 .findFirst();
     }
@@ -43,15 +43,12 @@ public class UserInMemoryRepository implements UserRepository {
     }
 
     public byte[] getAvatar(UUID uuid){
-        return this.dataStore.getAvatar(uuid);
-    }
-    public void createAvatar(UUID uuid, byte[] avatar){
-        this.dataStore.createAvatar(uuid,avatar);
+        return dataStore.getAvatar(uuid);
     }
     public void updateAvatar(UUID uuid,byte[] avatar){
-        this.dataStore.updateAvatar(uuid,avatar);
+        dataStore.updateAvatar(uuid,avatar);
     }
     public void deleteAvatar(UUID uuid){
-        this.dataStore.deleteAvatar(uuid);
+        dataStore.deleteAvatar(uuid);
     }
 }

@@ -14,9 +14,6 @@ import java.util.stream.Collectors;
 
 public class DataStore {
     private final Path AVATAR_PATH;
-//    private static final Path AVATAR_PATH = Path.of("../configuration/avatar");
-//    private static final Path AVATAR_PATH = Path.of("./src/main/java/com/demo/rest/configuration/avatar");
-Path currentPath = Path.of("").toAbsolutePath();
     private final Set<User> users = new HashSet<>();
     private final CloningUtility cloningUtility;
 
@@ -64,18 +61,6 @@ Path currentPath = Path.of("").toAbsolutePath();
             }
         } catch (IOException e) {
             throw new RuntimeException("Could not get avatar with id \"%s\"".formatted(uuid), e);
-        }
-    }
-
-    public synchronized void createAvatar(UUID uuid, byte[] avatarData) {
-        Path avatarPath = getAvatarPath(uuid);
-        try {
-            if (Files.exists(avatarPath)) {
-                throw new IllegalArgumentException("Avatar for id \"%s\" already exists".formatted(uuid));
-            }
-            Files.write(avatarPath, avatarData);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not create avatar for id \"%s\"".formatted(uuid), e);
         }
     }
 

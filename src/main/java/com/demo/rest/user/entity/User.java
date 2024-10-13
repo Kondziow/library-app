@@ -18,7 +18,6 @@ public class User implements Serializable {
     private UUID id;
     private String username;
     private String emailAddress;
-    @Singular
     private List<Book> books;
 
     @ToString.Exclude
