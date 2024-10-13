@@ -29,9 +29,6 @@ public class UserService {
             try {
                 byte[] avatar = is.readAllBytes();
 
-                user.setAvatar(avatar);
-                userRepository.update(user);
-
                 userRepository.updateAvatar(id, avatar);
             } catch (IOException ex) {
                 throw new IllegalStateException(ex);

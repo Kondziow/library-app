@@ -19,8 +19,4 @@ public class User implements Serializable {
     private String username;
     private String emailAddress;
     private List<Book> books;
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private byte[] avatar;
 }
