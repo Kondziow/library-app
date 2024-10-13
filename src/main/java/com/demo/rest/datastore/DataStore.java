@@ -3,6 +3,9 @@ package com.demo.rest.datastore;
 import com.demo.rest.serialization.CloningUtility;
 import com.demo.rest.user.entity.User;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,10 +13,15 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class DataStore {
+    private final Path AVATAR_PATH;
+//    private static final Path AVATAR_PATH = Path.of("../configuration/avatar");
+//    private static final Path AVATAR_PATH = Path.of("./src/main/java/com/demo/rest/configuration/avatar");
+Path currentPath = Path.of("").toAbsolutePath();
     private final Set<User> users = new HashSet<>();
     private final CloningUtility cloningUtility;
 
-    public DataStore(CloningUtility cloningUtility) {
+    public DataStore(CloningUtility cloningUtility, Path avatarPath) {
+        AVATAR_PATH = avatarPath;
         this.cloningUtility = cloningUtility;
     }
 
@@ -31,12 +39,6 @@ public class DataStore {
         }
     }
 
-    public synchronized void deleteUser(UUID id) {
-        if (!users.removeIf(user -> user.getId().equals(id))) {
-            throw new IllegalArgumentException("The user with id \"%s\" does not exist".formatted(id));
-        }
-    }
-
     public synchronized void updateUser(User value) throws IllegalArgumentException {
         if (users.removeIf((character) -> character.getId().equals(value.getId()))) {
             users.add(cloningUtility.clone(value));
@@ -44,4 +46,64 @@ public class DataStore {
             throw new IllegalArgumentException("The user with id \"%s\" does not exist".formatted(value.getId()));
         }
     }
+
+    public synchronized void deleteUser(UUID id) {
+        if (!users.removeIf(user -> user.getId().equals(id))) {
+            throw new IllegalArgumentException("The user with id \"%s\" does not exist".formatted(id));
+        }
+    }
+
+    public synchronized byte[] getAvatar(UUID uuid) {
+        Path avatarPath = getAvatarPath(uuid);
+        try {
+            if (Files.exists(avatarPath)) {
+                System.out.println("In getAvatar. Path: " + avatarPath);
+                return Files.readAllBytes(avatarPath);
+            } else {
+                throw new IllegalArgumentException("Avatar for id \"%s\" does not exist. Path: \"%s\"".formatted(uuid, avatarPath));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not get avatar with id \"%s\"".formatted(uuid), e);
+        }
+    }
+
+    public synchronized void createAvatar(UUID uuid, byte[] avatarData) {
+        Path avatarPath = getAvatarPath(uuid);
+        try {
+            if (Files.exists(avatarPath)) {
+                throw new IllegalArgumentException("Avatar for id \"%s\" already exists".formatted(uuid));
+            }
+            Files.write(avatarPath, avatarData);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not create avatar for id \"%s\"".formatted(uuid), e);
+        }
+    }
+
+    public synchronized void updateAvatar(UUID uuid, byte[] avatarData) {
+        Path avatarPath = getAvatarPath(uuid);
+        try {
+            Files.write(avatarPath, avatarData);
+            System.out.println("In updateAvatar. Path: " + avatarPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public synchronized void deleteAvatar(UUID uuid) {
+        Path avatarPath = getAvatarPath(uuid);
+        try {
+            if (Files.exists(avatarPath)) {
+                Files.delete(avatarPath);
+            } else {
+                throw new IllegalArgumentException("Avatar for id \"%s\" does not exist".formatted(uuid));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not delete avatar for id \"%s\"".formatted(uuid), e);
+        }
+    }
+
+    public synchronized Path getAvatarPath(UUID userId) {
+        return AVATAR_PATH.resolve(userId.toString() + ".png");
+    }
+
 }

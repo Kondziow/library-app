@@ -25,6 +25,17 @@ public class ApiServlet extends HttpServlet {
     private UserController userController;
     private final Jsonb jsonb = JsonbBuilder.create();
 
+    public static final class Paths {
+        public static final String API = "/api";
+    }
+
+    public static final class Patterns {
+        private static final Pattern UUID = Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
+        public static final Pattern USER = Pattern.compile("/users/(%s)".formatted(UUID.pattern()));
+        public static final Pattern USERS = Pattern.compile("/users/?");
+        public static final Pattern USER_AVATAR = Pattern.compile("/users/(%s)/avatar".formatted(UUID.pattern()));
+    }
+
     @Override
     public void init() throws ServletException {
         super.init();
@@ -42,15 +53,42 @@ public class ApiServlet extends HttpServlet {
                 return;
             } else if (path.matches(Patterns.USER.pattern())) {
                 response.setContentType("application/json");
-                UUID uuid = extractUuid(Patterns.USER, path);
-                response.getWriter().write(jsonb.toJson(userController.getUser(uuid)));
+                UUID id = extractUuid(Patterns.USER, path);
+                response.getWriter().write(jsonb.toJson(userController.getUser(id)));
                 return;
             } else if (path.matches(Patterns.USER_AVATAR.pattern())) {
                 response.setContentType("image/png");
-                UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
-                byte[] avatar = userController.getUserAvatar(uuid);
+                UUID id = extractUuid(Patterns.USER_AVATAR, path);
+                byte[] avatar = userController.getAvatar(id);
                 response.setContentLength(avatar.length);
                 response.getOutputStream().write(avatar);
+                return;
+            }
+        }
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+    }
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = parseRequestPath(request);
+        String servletPath = request.getServletPath();
+        if (Paths.API.equals(servletPath)) {
+            if (path.matches(Patterns.USER_AVATAR.pattern())) {
+                UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
+                userController.putAvatar(uuid, request.getPart("avatar").getInputStream());
+                return;
+            }
+        }
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = parseRequestPath(request);
+        String servletPath = request.getServletPath();
+        if (Paths.API.equals(servletPath)) {
+            if (path.matches(Patterns.USER_AVATAR.pattern())){
+                UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
+                userController.deleteAvatar(uuid);
                 return;
             }
         }
@@ -71,16 +109,4 @@ public class ApiServlet extends HttpServlet {
         path = path != null ? path : "";
         return path;
     }
-
-    public static final class Paths {
-        public static final String API = "/api";
-    }
-
-    public static final class Patterns {
-        private static final Pattern UUID = Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
-        public static final Pattern USER = Pattern.compile("/users/(%s)".formatted(UUID.pattern()));
-        public static final Pattern USERS = Pattern.compile("/users/?");
-        public static final Pattern USER_AVATAR = Pattern.compile("/users/(%s)/avatar".formatted(UUID.pattern()));
-    }
-
 }

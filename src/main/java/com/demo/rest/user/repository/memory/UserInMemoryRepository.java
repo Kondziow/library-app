@@ -33,12 +33,25 @@ public class UserInMemoryRepository implements UserRepository {
     }
 
     @Override
+    public void update(User entity) {
+        dataStore.updateUser(entity);
+    }
+
+    @Override
     public void delete(User entity) {
         dataStore.deleteUser(entity.getId());
     }
 
-    @Override
-    public void update(User entity) {
-        dataStore.updateUser(entity);
+    public byte[] getAvatar(UUID uuid){
+        return this.dataStore.getAvatar(uuid);
+    }
+    public void createAvatar(UUID uuid, byte[] avatar){
+        this.dataStore.createAvatar(uuid,avatar);
+    }
+    public void updateAvatar(UUID uuid,byte[] avatar){
+        this.dataStore.updateAvatar(uuid,avatar);
+    }
+    public void deleteAvatar(UUID uuid){
+        this.dataStore.deleteAvatar(uuid);
     }
 }
