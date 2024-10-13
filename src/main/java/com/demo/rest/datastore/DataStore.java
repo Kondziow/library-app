@@ -28,7 +28,7 @@ public class DataStore {
                 .collect(Collectors.toList());
     }
 
-    public synchronized void createUser(User value) throws IllegalArgumentException {
+    public void createUser(User value) throws IllegalArgumentException {
         if (users.stream().anyMatch((character) -> character.getId().equals(value.getId()))) {
             throw new IllegalArgumentException("The user id \"%s\" is not unique".formatted(value.getId()));
         } else {
@@ -36,7 +36,7 @@ public class DataStore {
         }
     }
 
-    public synchronized void updateUser(User value) throws IllegalArgumentException {
+    public void updateUser(User value) throws IllegalArgumentException {
         if (users.removeIf((character) -> character.getId().equals(value.getId()))) {
             users.add(cloningUtility.clone(value));
         } else {
@@ -44,13 +44,13 @@ public class DataStore {
         }
     }
 
-    public synchronized void deleteUser(UUID id) {
+    public void deleteUser(UUID id) {
         if (!users.removeIf(user -> user.getId().equals(id))) {
             throw new IllegalArgumentException("The user with id \"%s\" does not exist".formatted(id));
         }
     }
 
-    public synchronized byte[] getAvatar(UUID uuid) {
+    public byte[] getAvatar(UUID uuid) {
         Path avatarPath = getAvatarPath(uuid);
         try {
             if (Files.exists(avatarPath)) {
@@ -64,7 +64,7 @@ public class DataStore {
         }
     }
 
-    public synchronized void updateAvatar(UUID uuid, byte[] avatarData) {
+    public void updateAvatar(UUID uuid, byte[] avatarData) {
         Path avatarPath = getAvatarPath(uuid);
         try {
             Files.write(avatarPath, avatarData);
@@ -74,7 +74,7 @@ public class DataStore {
         }
     }
 
-    public synchronized void deleteAvatar(UUID uuid) {
+    public void deleteAvatar(UUID uuid) {
         Path avatarPath = getAvatarPath(uuid);
         try {
             if (Files.exists(avatarPath)) {
@@ -87,7 +87,7 @@ public class DataStore {
         }
     }
 
-    public synchronized Path getAvatarPath(UUID userId) {
+    public Path getAvatarPath(UUID userId) {
         return AVATAR_PATH.resolve(userId.toString() + ".png");
     }
 
