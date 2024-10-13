@@ -21,7 +21,7 @@ public class UserService {
     public void create(User user){ userRepository.create(user);}
 
 
-    public byte[] getAvatar(UUID uuid) {
+    public Optional<byte[]> getAvatar(UUID uuid) {
         return userRepository.getAvatar(uuid);
     }
     public void updateAvatar(UUID id, InputStream is) {

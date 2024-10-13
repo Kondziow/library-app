@@ -35,7 +35,8 @@ public class UserSimpleController implements UserController {
 
     @Override
     public byte[] getAvatar(UUID id) {
-        return userService.getAvatar(id);
+        return userService.getAvatar(id)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override

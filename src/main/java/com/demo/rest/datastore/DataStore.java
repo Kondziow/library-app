@@ -2,14 +2,13 @@ package com.demo.rest.datastore;
 
 import com.demo.rest.serialization.CloningUtility;
 import com.demo.rest.user.entity.User;
+import jakarta.ws.rs.NotFoundException;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataStore {
@@ -40,24 +39,23 @@ public class DataStore {
         if (users.removeIf((character) -> character.getId().equals(value.getId()))) {
             users.add(cloningUtility.clone(value));
         } else {
-            throw new IllegalArgumentException("The user with id \"%s\" does not exist".formatted(value.getId()));
+            throw new NotFoundException("The user with id \"%s\" does not exist".formatted(value.getId()));
         }
     }
 
     public void deleteUser(UUID id) {
         if (!users.removeIf(user -> user.getId().equals(id))) {
-            throw new IllegalArgumentException("The user with id \"%s\" does not exist".formatted(id));
+            throw new NotFoundException("The user with id \"%s\" does not exist".formatted(id));
         }
     }
 
-    public byte[] getAvatar(UUID uuid) {
+    public Optional<byte[]> getAvatar(UUID uuid) {
         Path avatarPath = getAvatarPath(uuid);
         try {
             if (Files.exists(avatarPath)) {
-                System.out.println("In getAvatar. Path: " + avatarPath);
-                return Files.readAllBytes(avatarPath);
+                return Optional.of(Files.readAllBytes(avatarPath));
             } else {
-                throw new IllegalArgumentException("Avatar for id \"%s\" does not exist. Path: \"%s\"".formatted(uuid, avatarPath));
+                return Optional.empty();
             }
         } catch (IOException e) {
             throw new RuntimeException("Could not get avatar with id \"%s\"".formatted(uuid), e);
@@ -68,7 +66,6 @@ public class DataStore {
         Path avatarPath = getAvatarPath(uuid);
         try {
             Files.write(avatarPath, avatarData);
-            System.out.println("In updateAvatar. Path: " + avatarPath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -80,7 +77,7 @@ public class DataStore {
             if (Files.exists(avatarPath)) {
                 Files.delete(avatarPath);
             } else {
-                throw new IllegalArgumentException("Avatar for id \"%s\" does not exist".formatted(uuid));
+                throw new NotFoundException("Avatar for id \"%s\" does not exist".formatted(uuid));
             }
         } catch (IOException e) {
             throw new RuntimeException("Could not delete avatar for id \"%s\"".formatted(uuid), e);
