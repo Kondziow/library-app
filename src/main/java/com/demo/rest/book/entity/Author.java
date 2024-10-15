@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -15,6 +16,5 @@ public class Author {
     private UUID id;
     private String name;
     private String nationality;
-    @Singular
     private List<Book> books;
 }

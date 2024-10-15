@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -16,6 +17,5 @@ public class User {
     private UUID id;
     private String username;
     private String emailAddress;
-    @Singular
     private List<Book> books;
 }
