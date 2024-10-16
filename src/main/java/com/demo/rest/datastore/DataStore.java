@@ -8,17 +8,26 @@ import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataStore {
-    private final Path AVATAR_PATH;
+    private final Path avatarPath;
     private final Set<User> users = new HashSet<>();
     private final CloningUtility cloningUtility;
 
-    public DataStore(CloningUtility cloningUtility, Path avatarPath) {
-        AVATAR_PATH = avatarPath;
+    public DataStore(CloningUtility cloningUtility, String avatarPath) {
+        this.avatarPath = Paths.get(avatarPath);
         this.cloningUtility = cloningUtility;
+        System.out.println(avatarPath);
+
+        try {
+            Files.createDirectories(this.avatarPath);
+            System.out.println("Directory created: " + this.avatarPath.toAbsolutePath());
+        } catch (IOException e) {
+            throw new IllegalStateException("Exception when creating picture directory", e);
+        }
     }
 
     public List<User> findAllUsers() {
@@ -71,13 +80,14 @@ public class DataStore {
         }
     }
 
-    public void deleteAvatar(UUID uuid) {
+    public boolean deleteAvatar(UUID uuid) {
         Path avatarPath = getAvatarPath(uuid);
         try {
             if (Files.exists(avatarPath)) {
                 Files.delete(avatarPath);
+                return true;
             } else {
-                throw new NotFoundException("Avatar for id \"%s\" does not exist".formatted(uuid));
+                return false;
             }
         } catch (IOException e) {
             throw new RuntimeException("Could not delete avatar for id \"%s\"".formatted(uuid), e);
@@ -85,7 +95,7 @@ public class DataStore {
     }
 
     public Path getAvatarPath(UUID userId) {
-        return AVATAR_PATH.resolve(userId.toString() + ".png");
+        return avatarPath.resolve(userId.toString() + ".png");
     }
 
 }

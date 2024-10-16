@@ -35,7 +35,7 @@ public class UserService {
             }
         });
     }
-    public void deleteAvatar(UUID uuid) {
-        userRepository.deleteAvatar(uuid);
+    public boolean deleteAvatar(UUID uuid) {
+        return userRepository.deleteAvatar(uuid);
     }
 }

@@ -48,7 +48,7 @@ public class UserInMemoryRepository implements UserRepository {
     public void updateAvatar(UUID uuid,byte[] avatar){
         dataStore.updateAvatar(uuid,avatar);
     }
-    public void deleteAvatar(UUID uuid){
-        dataStore.deleteAvatar(uuid);
+    public boolean deleteAvatar(UUID uuid){
+        return dataStore.deleteAvatar(uuid);
     }
 }

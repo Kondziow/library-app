@@ -17,6 +17,5 @@ public class Author implements Serializable {
     private UUID id;
     private String name;
     private String nationality;
-    @Singular
     private List<Book> books;
 }

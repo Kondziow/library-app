@@ -50,6 +50,8 @@ public class UserSimpleController implements UserController {
 
     @Override
     public void deleteAvatar(UUID id) {
-        userService.deleteAvatar(id);
+        if(!userService.deleteAvatar(id)) {
+            throw new NotFoundException();
+        };
     }
 }

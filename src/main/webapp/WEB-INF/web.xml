@@ -5,6 +5,11 @@
          version="6.0"
          metadata-complete="false">
 
+    <context-param>
+        <param-name>pictureDir</param-name>
+        <param-value>pictureDir</param-value>
+    </context-param>
+
     <listener>
         <listener-class>com.demo.rest.configuration.listener.CreateResource</listener-class>
     </listener>

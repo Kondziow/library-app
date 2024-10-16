@@ -9,5 +9,5 @@ import java.util.UUID;
 public interface UserRepository extends Repository<User, UUID> {
     public Optional<byte[]> getAvatar(UUID uuid);
     public void updateAvatar(UUID uuid,byte[] avatar);
-    public void deleteAvatar(UUID uuid);
+    public boolean deleteAvatar(UUID uuid);
 }
