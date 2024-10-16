@@ -1,6 +1,8 @@
 package com.demo.rest.configuration.listener;
 
 import com.demo.rest.component.DtoFunctionFactory;
+import com.demo.rest.user.avatar.controller.simple.AvatarSimpleController;
+import com.demo.rest.user.avatar.service.AvatarService;
 import com.demo.rest.user.controller.simple.UserSimpleController;
 import com.demo.rest.user.service.UserService;
 import jakarta.servlet.ServletContextEvent;
@@ -16,6 +18,15 @@ public class CreateControllers implements ServletContextListener {
                 new UserSimpleController(
                         userService,
                         new DtoFunctionFactory()
+                )
+        );
+
+        AvatarService avatarService = (AvatarService) event.getServletContext().getAttribute("avatarService");
+        event.getServletContext().setAttribute(
+                "avatarController",
+                new AvatarSimpleController(
+                        userService,
+                        avatarService
                 )
         );
     }

@@ -5,11 +5,8 @@ import com.demo.rest.controller.servlet.exception.NotFoundException;
 import com.demo.rest.user.controller.api.UserController;
 import com.demo.rest.user.dto.GetUserResponse;
 import com.demo.rest.user.dto.GetUsersResponse;
-import com.demo.rest.user.entity.User;
 import com.demo.rest.user.service.UserService;
-import lombok.RequiredArgsConstructor;
 
-import java.io.InputStream;
 import java.util.UUID;
 
 public class UserSimpleController implements UserController {
@@ -31,27 +28,5 @@ public class UserSimpleController implements UserController {
         return userService.findById(id)
                 .map(factory.userToResponse())
                 .orElseThrow(NotFoundException::new);
-    }
-
-    @Override
-    public byte[] getAvatar(UUID id) {
-        return userService.getAvatar(id)
-                .orElseThrow(NotFoundException::new);
-    }
-
-    @Override
-    public void putAvatar(UUID id, InputStream avatar) {
-        userService.findById(id).ifPresentOrElse(
-                entity -> userService.updateAvatar(id, avatar),
-                () -> {
-                    throw new NotFoundException();
-                });
-    }
-
-    @Override
-    public void deleteAvatar(UUID id) {
-        if(!userService.deleteAvatar(id)) {
-            throw new NotFoundException();
-        };
     }
 }

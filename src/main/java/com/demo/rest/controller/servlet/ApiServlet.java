@@ -1,5 +1,6 @@
 package com.demo.rest.controller.servlet;
 
+import com.demo.rest.user.avatar.controller.api.AvatarController;
 import com.demo.rest.user.controller.api.UserController;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -23,6 +24,7 @@ import java.util.regex.Pattern;
 @MultipartConfig(maxFileSize = 200 * 1024)
 public class ApiServlet extends HttpServlet {
     private UserController userController;
+    private AvatarController avatarController;
     private final Jsonb jsonb = JsonbBuilder.create();
 
     public static final class Paths {
@@ -40,6 +42,7 @@ public class ApiServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         userController = (UserController) getServletContext().getAttribute("userController");
+        avatarController = (AvatarController) getServletContext().getAttribute("avatarController");
     }
 
     @Override
@@ -59,7 +62,7 @@ public class ApiServlet extends HttpServlet {
             } else if (path.matches(Patterns.USER_AVATAR.pattern())) {
                 response.setContentType("image/png");
                 UUID id = extractUuid(Patterns.USER_AVATAR, path);
-                byte[] avatar = userController.getAvatar(id);
+                byte[] avatar = avatarController.getAvatar(id);
                 response.setContentLength(avatar.length);
                 response.getOutputStream().write(avatar);
                 return;
@@ -74,7 +77,7 @@ public class ApiServlet extends HttpServlet {
         if (Paths.API.equals(servletPath)) {
             if (path.matches(Patterns.USER_AVATAR.pattern())) {
                 UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
-                userController.putAvatar(uuid, request.getPart("avatar").getInputStream());
+                avatarController.putAvatar(uuid, request.getPart("avatar").getInputStream());
                 return;
             }
         }
@@ -82,13 +85,13 @@ public class ApiServlet extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
         if (Paths.API.equals(servletPath)) {
             if (path.matches(Patterns.USER_AVATAR.pattern())){
                 UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
-                userController.deleteAvatar(uuid);
+                avatarController.deleteAvatar(uuid);
                 return;
             }
         }
