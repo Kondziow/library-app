@@ -11,10 +11,6 @@
     </context-param>
 
     <listener>
-        <listener-class>com.demo.rest.configuration.listener.CreateResource</listener-class>
-    </listener>
-
-    <listener>
         <listener-class>com.demo.rest.configuration.listener.CreateDataSource</listener-class>
     </listener>
 
