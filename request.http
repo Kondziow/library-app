@@ -15,23 +15,26 @@ GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a0
 
 ### Put Kacper avatar
 PUT http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf/avatar
-Content-Type: multipart/form-data boundary=boundary
+Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form:data; name="avatar" filename="80ed5ffb-a67a-4253-910c-a64134a01ccf.png";
+Content-Disposition: form-data; name="avatar"; filename="80ed5ffb-a67a-4253-910c-a64134a01ccf.png"
+Content-Type: image/png
 
 < ./src/main/resources/avatar/80ed5ffb-a67a-4253-910c-a64134a01ccf.png
 --boundary--
 
 ### Put another Kacper avatar
 PUT http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf/avatar
-Content-Type: multipart/form-data boundary=boundary
+Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
-Content-Disposition: form:data; name="avatar" filename="new_Kacper.png";
+Content-Disposition: form-data; name="avatar"; filename="new_Kacper.png"
+Content-Type: image/png
 
 < ./src/main/resources/avatar/new_Kacper.png
 --boundary--
+
 
 ### Delete Kacper avatar
 DELETE http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf/avatar
