@@ -4,7 +4,6 @@ import com.demo.rest.serialization.CloningUtility;
 import com.demo.rest.user.entity.User;
 import jakarta.ws.rs.NotFoundException;
 
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,8 +57,8 @@ public class DataStore {
         }
     }
 
-    public Optional<byte[]> getAvatar(UUID uuid) {
-        Path avatarPath = getAvatarPath(uuid);
+    public Optional<byte[]> getAvatar(UUID id) {
+        Path avatarPath = getAvatarPath(id);
         try {
             if (Files.exists(avatarPath)) {
                 return Optional.of(Files.readAllBytes(avatarPath));
@@ -67,12 +66,12 @@ public class DataStore {
                 return Optional.empty();
             }
         } catch (IOException e) {
-            throw new RuntimeException("Could not get avatar with id \"%s\"".formatted(uuid), e);
+            throw new RuntimeException("Could not get avatar with id \"%s\"".formatted(id), e);
         }
     }
 
-    public void updateAvatar(UUID uuid, byte[] avatarData) {
-        Path avatarPath = getAvatarPath(uuid);
+    public void updateAvatar(UUID id, byte[] avatarData) {
+        Path avatarPath = getAvatarPath(id);
         try {
             Files.write(avatarPath, avatarData);
         } catch (IOException e) {
@@ -80,17 +79,16 @@ public class DataStore {
         }
     }
 
-    public boolean deleteAvatar(UUID uuid) {
-        Path avatarPath = getAvatarPath(uuid);
+    public void deleteAvatar(UUID id) {
+        Path avatarPath = getAvatarPath(id);
         try {
             if (Files.exists(avatarPath)) {
                 Files.delete(avatarPath);
-                return true;
             } else {
-                return false;
+                throw new NotFoundException("There is no avatar with that id: \"%s\"".formatted(id));
             }
         } catch (IOException e) {
-            throw new RuntimeException("Could not delete avatar for id \"%s\"".formatted(uuid), e);
+            throw new RuntimeException("Could not delete avatar for id \"%s\"".formatted(id), e);
         }
     }
 

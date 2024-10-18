@@ -33,8 +33,10 @@ public class AvatarSimpleController implements AvatarController {
 
     @Override
     public void deleteAvatar(UUID id) {
-        if(!avatarService.deleteAvatar(id)) {
-            throw new NotFoundException();
+        if (avatarService.getAvatar(id).isPresent()) {
+            avatarService.deleteAvatar(id);
+        } else {
+            throw new NotFoundException("There is no avatar with that id: \"%s\"".formatted(id));
         }
     }
 }

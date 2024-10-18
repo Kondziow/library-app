@@ -16,9 +16,11 @@ public class AvatarService {
         this.userRepository = userRepository;
         this.avatarRepository = avatarRepository;
     }
-    public Optional<byte[]> getAvatar(UUID uuid) {
-        return avatarRepository.getAvatar(uuid);
+
+    public Optional<byte[]> getAvatar(UUID id) {
+        return avatarRepository.getAvatar(id);
     }
+
     public void updateAvatar(UUID id, InputStream is) {
         userRepository.find(id).ifPresent(user -> {
             try {
@@ -30,7 +32,8 @@ public class AvatarService {
             }
         });
     }
-    public boolean deleteAvatar(UUID uuid) {
-        return avatarRepository.deleteAvatar(uuid);
+
+    public void deleteAvatar(UUID id) {
+        avatarRepository.deleteAvatar(id);
     }
 }

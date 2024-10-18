@@ -14,7 +14,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> findById(UUID uuid) { return userRepository.find(uuid);}
+    public Optional<User> findById(UUID id) { return userRepository.find(id);}
+
     public List<User> findAll() { return userRepository.findAll();}
+
     public void create(User user){ userRepository.create(user);}
 }

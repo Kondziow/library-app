@@ -11,13 +11,13 @@ public class AvatarRepository {
     public AvatarRepository(DataStore dataStore) {
         this.dataStore = dataStore;
     }
-    public Optional<byte[]> getAvatar(UUID uuid){
-        return dataStore.getAvatar(uuid);
+    public Optional<byte[]> getAvatar(UUID id){
+        return dataStore.getAvatar(id);
     }
-    public void updateAvatar(UUID uuid,byte[] avatar){
-        dataStore.updateAvatar(uuid,avatar);
+    public void updateAvatar(UUID id,byte[] avatar){
+        dataStore.updateAvatar(id,avatar);
     }
-    public boolean deleteAvatar(UUID uuid){
-        return dataStore.deleteAvatar(uuid);
+    public void deleteAvatar(UUID id){
+         dataStore.deleteAvatar(id);
     }
 }
