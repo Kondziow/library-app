@@ -1,10 +1,32 @@
+# AUTHOR
+
+### Get all authors
+GET http://localhost:9080/library-app/api/authors
+
+### Get author not exist
+GET http://localhost:9080/library-app/api/authors/82a84717-c36c-42c1-b69c-c63546d4449c
+
+### Get existing author
+GET http://localhost:9080/library-app/api/authors/24a84717-c36c-42c1-b69c-c63546d4449d
+
+#BOOK
+
+### Get all books
+GET http://localhost:9080/library-app/api/books
+
+### Get book not exist
+GET http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3e
+
+### Get existing book
+GET http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3f
+
 # PLAYER
 
 ### Get all users
 GET http://localhost:9080/library-app/api/users
 
 ### Get user not exist
-GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01cca
+GET http://localhost:9080/library-app/api/users/7863889b-51ec-49d8-b7ea-2beff3724c3a
 
 ### Get Kacper
 GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf
