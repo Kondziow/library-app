@@ -1,5 +1,6 @@
 package com.demo.rest.book.entity;
 
+import com.demo.rest.user.entity.User;
 import lombok.*;
 
 import java.io.Serializable;
@@ -17,6 +18,7 @@ public class Book implements Serializable {
     private UUID id;
     private String title;
     private LocalDate releaseDate;
-    private Author author;
     private Genre genre;
+    private Author author;
+    private User user;
 }

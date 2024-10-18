@@ -1,3 +1,5 @@
+# PLAYER
+
 ### Get all users
 GET http://localhost:9080/library-app/api/users
 
@@ -6,6 +8,9 @@ GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a0
 
 ### Get Kacper
 GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf
+
+### Put player
+PUT http://localhost:9080/library-app/api/users
 
 ### Get user not exist avatar
 GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01cca/avatar
@@ -23,18 +28,6 @@ Content-Type: image/png
 
 < ./src/main/resources/avatar/80ed5ffb-a67a-4253-910c-a64134a01ccf.png
 --boundary--
-
-### Put another Kacper avatar
-PUT http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf/avatar
-Content-Type: multipart/form-data; boundary=boundary
-
---boundary
-Content-Disposition: form-data; name="avatar"; filename="new_Kacper.png"
-Content-Type: image/png
-
-< ./src/main/resources/avatar/new_Kacper.png
---boundary--
-
 
 ### Delete Kacper avatar
 DELETE http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf/avatar

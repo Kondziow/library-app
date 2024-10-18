@@ -24,5 +24,9 @@ public class UserService {
 
     public List<User> findAll() { return userRepository.findAll();}
 
-    public void create(User user){ userRepository.create(user);}
+    public void create(User user) { userRepository.create(user);}
+
+    public void update(User user) { userRepository.update(user);}
+
+    public void delete(UUID id) {userRepository.delete(userRepository.find(id).orElseThrow());}
 }

@@ -1,5 +1,7 @@
 package com.demo.rest.datastore;
 
+import com.demo.rest.book.entity.Author;
+import com.demo.rest.book.entity.Book;
 import com.demo.rest.serialization.CloningUtility;
 import com.demo.rest.user.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -20,6 +22,9 @@ public class DataStore {
     private static final String avatarDirPath = "pictureDirectory";
     private final Path avatarPath;
     private final CloningUtility cloningUtility;
+
+    private final Set<Author> authors = new HashSet<>();
+    private final Set<Book> books = new HashSet<>();
     private final Set<User> users = new HashSet<>();
 
     @Inject
@@ -37,6 +42,64 @@ public class DataStore {
             System.out.println("Directory created: " + this.avatarPath.toAbsolutePath());
         } catch (IOException e) {
             throw new IllegalStateException("Exception when creating picture directory", e);
+        }
+    }
+
+    public List<Author> findAllAuthors() {
+        return authors.stream()
+                .map(cloningUtility::clone)
+                .collect(Collectors.toList());
+    }
+
+    public void createAuthor(Author value) throws IllegalArgumentException {
+        if (authors.stream().anyMatch((character) -> character.getId().equals(value.getId()))) {
+            throw new IllegalArgumentException("The author id \"%s\" is not unique".formatted(value.getId()));
+        } else {
+            authors.add(cloningUtility.clone(value));
+        }
+    }
+
+    public void updateAuthor(Author value) throws IllegalArgumentException {
+        if (authors.removeIf((character) -> character.getId().equals(value.getId()))) {
+            authors.add(cloningUtility.clone(value));
+        } else {
+            throw new NotFoundException("The author with id \"%s\" does not exist".formatted(value.getId()));
+        }
+    }
+
+    public void deleteAuthor(UUID id) {
+        if (!authors.removeIf(author -> author.getId().equals(id))) {
+            throw new NotFoundException("The author with id \"%s\" does not exist".formatted(id));
+        }
+    }
+
+    public List<Book> findAllBooks() {
+        return books.stream()
+                .map(cloningUtility::clone)
+                .collect(Collectors.toList());
+    }
+
+    public void createBook(Book value) throws IllegalArgumentException {
+        if (books.stream().anyMatch((character) -> character.getId().equals(value.getId()))) {
+            throw new IllegalArgumentException("The book id \"%s\" is not unique".formatted(value.getId()));
+        } else {
+            Book entity = cloneBookWithRelationships(value);
+            books.add(cloningUtility.clone(entity));
+        }
+    }
+
+    public void updateBook(Book value) throws IllegalArgumentException {
+        Book entity = cloneBookWithRelationships(value);
+        if (books.removeIf((character) -> character.getId().equals(value.getId()))) {
+            books.add(entity);
+        } else {
+            throw new NotFoundException("The book with id \"%s\" does not exist".formatted(value.getId()));
+        }
+    }
+
+    public void deleteBook(UUID id) {
+        if (!books.removeIf(book -> book.getId().equals(id))) {
+            throw new NotFoundException("The book with id \"%s\" does not exist".formatted(id));
         }
     }
 
@@ -107,4 +170,23 @@ public class DataStore {
         return avatarPath.resolve(userId.toString() + ".png");
     }
 
+    private Book cloneBookWithRelationships(Book value) {
+        Book entity = cloningUtility.clone(value);
+
+        if (entity.getUser() != null) {
+            entity.setUser(users.stream()
+                    .filter(user -> user.getId().equals(value.getUser().getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("No user with id \"%s\".".formatted(value.getUser().getId()))));
+        }
+
+        if (entity.getAuthor() != null) {
+            entity.setAuthor(authors.stream()
+                    .filter(author -> author.getId().equals(value.getAuthor().getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("No author with id \"%s\".".formatted(value.getAuthor().getId()))));
+        }
+
+        return entity;
+    }
 }

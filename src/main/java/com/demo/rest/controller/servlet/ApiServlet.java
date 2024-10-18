@@ -1,5 +1,7 @@
 package com.demo.rest.controller.servlet;
 
+import com.demo.rest.book.controller.api.AuthorController;
+import com.demo.rest.book.controller.api.BookController;
 import com.demo.rest.user.avatar.controller.api.AvatarController;
 import com.demo.rest.user.controller.api.UserController;
 import jakarta.inject.Inject;
@@ -24,6 +26,8 @@ import java.util.regex.Pattern;
 )
 @MultipartConfig(maxFileSize = 200 * 1024)
 public class ApiServlet extends HttpServlet {
+    private final AuthorController authorController;
+    private final BookController bookController;
     private final UserController userController;
     private final AvatarController avatarController;
     private final Jsonb jsonb = JsonbBuilder.create();
@@ -34,13 +38,19 @@ public class ApiServlet extends HttpServlet {
 
     public static final class Patterns {
         private static final Pattern UUID = Pattern.compile("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
+        public static final Pattern AUTHOR = Pattern.compile("/authors/(%s)".formatted(UUID.pattern()));
+        public static final Pattern AUTHORS = Pattern.compile("/authors/?");
+        public static final Pattern BOOK = Pattern.compile("/books/(%s)".formatted(UUID.pattern()));
+        public static final Pattern BOOKS = Pattern.compile("/books/?");
         public static final Pattern USER = Pattern.compile("/users/(%s)".formatted(UUID.pattern()));
         public static final Pattern USERS = Pattern.compile("/users/?");
         public static final Pattern USER_AVATAR = Pattern.compile("/users/(%s)/avatar".formatted(UUID.pattern()));
     }
 
     @Inject
-    public ApiServlet(UserController userController, AvatarController avatarController) {
+    public ApiServlet(AuthorController authorController, BookController bookController, UserController userController, AvatarController avatarController) {
+        this.authorController = authorController;
+        this.bookController = bookController;
         this.userController = userController;
         this.avatarController = avatarController;
     }
@@ -50,7 +60,25 @@ public class ApiServlet extends HttpServlet {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
         if (Paths.API.equals(servletPath)) {
-            if (path.matches(Patterns.USERS.pattern())) {
+            if (path.matches(Patterns.AUTHORS.pattern())) {
+                response.setContentType("application/json");
+                response.getWriter().write(jsonb.toJson(authorController.getAuthors()));
+                return;
+            } else if (path.matches(Patterns.AUTHOR.pattern())) {
+                response.setContentType("application/json");
+                UUID id = extractUuid(Patterns.AUTHOR, path);
+                response.getWriter().write(jsonb.toJson(authorController.getAuthor(id)));
+                return;
+            } else if (path.matches(Patterns.BOOKS.pattern())) {
+                response.setContentType("application/json");
+                response.getWriter().write(jsonb.toJson(bookController.getBooks()));
+                return;
+            } else if (path.matches(Patterns.BOOK.pattern())) {
+                response.setContentType("application/json");
+                UUID id = extractUuid(Patterns.BOOK, path);
+                response.getWriter().write(jsonb.toJson(bookController.getBook(id)));
+                return;
+            } else if (path.matches(Patterns.USERS.pattern())) {
                 response.setContentType("application/json");
                 response.getWriter().write(jsonb.toJson(userController.getUsers()));
                 return;
@@ -89,7 +117,7 @@ public class ApiServlet extends HttpServlet {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
         if (Paths.API.equals(servletPath)) {
-            if (path.matches(Patterns.USER_AVATAR.pattern())){
+            if (path.matches(Patterns.USER_AVATAR.pattern())) {
                 UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
                 avatarController.deleteAvatar(uuid);
                 return;
