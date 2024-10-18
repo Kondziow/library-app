@@ -2,6 +2,10 @@ package com.demo.rest.configuration.listener;
 
 import com.demo.rest.user.entity.User;
 import com.demo.rest.user.service.UserService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -10,13 +14,16 @@ import lombok.SneakyThrows;
 import java.io.InputStream;
 import java.util.UUID;
 
-@WebListener
+@ApplicationScoped
 public class DataInitialization implements ServletContextListener {
     private UserService userService;
 
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-        userService = (UserService) event.getServletContext().getAttribute("userService");
+    @Inject
+    public void contextInitialized(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void contextInitialized(@Observes @Initialized(ApplicationScoped.class) Object init) {
         init();
     }
 

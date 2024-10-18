@@ -1,7 +1,7 @@
 package com.demo.rest.configuration.listener;
 
 import com.demo.rest.datastore.DataStore;
-import com.demo.rest.user.avatar.repository.AvatarRepository;
+import com.demo.rest.user.avatar.repository.impl.AvatarRepositoryImpl;
 import com.demo.rest.user.avatar.service.AvatarService;
 import com.demo.rest.user.repository.api.UserRepository;
 import com.demo.rest.user.repository.memory.UserInMemoryRepository;
@@ -19,7 +19,7 @@ public class CreateServices implements ServletContextListener {
         UserRepository userRepository = new UserInMemoryRepository(dataStore);
         event.getServletContext().setAttribute("userService", new UserService(userRepository));
 
-        AvatarRepository avatarRepository = new AvatarRepository(dataStore);
+        AvatarRepositoryImpl avatarRepository = new AvatarRepositoryImpl(dataStore);
         event.getServletContext().setAttribute("avatarService", new AvatarService(userRepository, avatarRepository));
     }
 }

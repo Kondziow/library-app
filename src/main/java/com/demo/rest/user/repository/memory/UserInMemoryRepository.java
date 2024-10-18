@@ -3,14 +3,18 @@ package com.demo.rest.user.repository.memory;
 import com.demo.rest.datastore.DataStore;
 import com.demo.rest.user.entity.User;
 import com.demo.rest.user.repository.api.UserRepository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@ApplicationScoped
 public class UserInMemoryRepository implements UserRepository {
     private final DataStore dataStore;
 
+    @Inject
     public UserInMemoryRepository(DataStore dataStore) {
         this.dataStore = dataStore;
     }

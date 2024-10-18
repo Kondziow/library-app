@@ -15,7 +15,6 @@ public class CreateDataSource implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent event) {
-        String avatarDirectory = event.getServletContext().getInitParameter("pictureDir");
-        event.getServletContext().setAttribute("dataSource", new DataStore(new CloningUtility(), avatarDirectory));
+        event.getServletContext().setAttribute("dataSource", new DataStore(new CloningUtility()));
     }
 }

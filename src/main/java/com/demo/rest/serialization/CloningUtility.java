@@ -1,9 +1,11 @@
 package com.demo.rest.serialization;
 
+import jakarta.enterprise.context.Dependent;
 import lombok.SneakyThrows;
 
 import java.io.*;
 
+@Dependent
 public class CloningUtility {
     @SneakyThrows
     @SuppressWarnings("unchecked")

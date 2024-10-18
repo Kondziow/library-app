@@ -2,7 +2,10 @@ package com.demo.rest.datastore;
 
 import com.demo.rest.serialization.CloningUtility;
 import com.demo.rest.user.entity.User;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,16 +14,24 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
+@NoArgsConstructor(force = true)
 public class DataStore {
+    private static final String avatarDirPath = "pictureDirectory";
     private final Path avatarPath;
-    private final Set<User> users = new HashSet<>();
     private final CloningUtility cloningUtility;
+    private final Set<User> users = new HashSet<>();
 
-    public DataStore(CloningUtility cloningUtility, String avatarPath) {
-        this.avatarPath = Paths.get(avatarPath);
+    @Inject
+    public DataStore(CloningUtility cloningUtility) {
+        this.avatarPath = Paths.get(avatarDirPath);
         this.cloningUtility = cloningUtility;
         System.out.println(avatarPath);
 
+        createAvatarDirectory();
+    }
+
+    private void createAvatarDirectory() {
         try {
             Files.createDirectories(this.avatarPath);
             System.out.println("Directory created: " + this.avatarPath.toAbsolutePath());

@@ -6,13 +6,17 @@ import com.demo.rest.user.controller.api.UserController;
 import com.demo.rest.user.dto.GetUserResponse;
 import com.demo.rest.user.dto.GetUsersResponse;
 import com.demo.rest.user.service.UserService;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import java.util.UUID;
 
+@RequestScoped
 public class UserSimpleController implements UserController {
     private final UserService userService;
     private final DtoFunctionFactory factory;
 
+    @Inject
     public UserSimpleController(UserService userService, DtoFunctionFactory factory) {
         this.userService = userService;
         this.factory = factory;

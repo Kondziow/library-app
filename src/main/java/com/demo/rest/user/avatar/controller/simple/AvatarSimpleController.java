@@ -4,14 +4,18 @@ import com.demo.rest.controller.servlet.exception.NotFoundException;
 import com.demo.rest.user.avatar.controller.api.AvatarController;
 import com.demo.rest.user.avatar.service.AvatarService;
 import com.demo.rest.user.service.UserService;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import java.io.InputStream;
 import java.util.UUID;
 
+@RequestScoped
 public class AvatarSimpleController implements AvatarController {
     private final UserService userService;
     private final AvatarService avatarService;
 
+    @Inject
     public AvatarSimpleController(UserService userService, AvatarService avatarService) {
         this.userService = userService;
         this.avatarService = avatarService;
