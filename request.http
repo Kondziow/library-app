@@ -31,8 +31,29 @@ GET http://localhost:9080/library-app/api/users/7863889b-51ec-49d8-b7ea-2beff372
 ### Get Kacper
 GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf
 
-### Put player
-PUT http://localhost:9080/library-app/api/users
+### Put new user
+PUT http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
+Content-Type: application/json
+
+{
+  "username": "Konrad",
+  "emailAddress": "Konrad@gmail.com"
+}
+
+### Get new user
+GET http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
+
+### Patch new user
+PATCH http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
+Content-Type: application/json
+
+{
+  "username": "Konrad",
+  "emailAddress": "Konrad@onet.com"
+}
+
+### Delete user
+DELETE http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
 
 ### Get user not exist avatar
 GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01cca/avatar

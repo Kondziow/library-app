@@ -4,6 +4,8 @@ import com.demo.rest.book.controller.api.AuthorController;
 import com.demo.rest.book.controller.api.BookController;
 import com.demo.rest.user.avatar.controller.api.AvatarController;
 import com.demo.rest.user.controller.api.UserController;
+import com.demo.rest.user.dto.PatchUserRequest;
+import com.demo.rest.user.dto.PutUserRequest;
 import jakarta.inject.Inject;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
@@ -56,6 +58,15 @@ public class ApiServlet extends HttpServlet {
     }
 
     @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getMethod().equals("PATCH")) {
+            doPatch(request, response);
+        } else {
+            super.service(request, response);
+        }
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
@@ -99,13 +110,32 @@ public class ApiServlet extends HttpServlet {
         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
     }
 
+    @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
         if (Paths.API.equals(servletPath)) {
-            if (path.matches(Patterns.USER_AVATAR.pattern())) {
-                UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
-                avatarController.putAvatar(uuid, request.getPart("avatar").getInputStream());
+            if (path.matches(Patterns.USER.pattern())) {
+                UUID id = extractUuid(Patterns.USER, path);
+                userController.putUser(id, jsonb.fromJson(request.getReader(), PutUserRequest.class));
+                response.addHeader("Location", createUrl(request, Paths.API, "users", id.toString()));
+                return;
+            } else if (path.matches(Patterns.USER_AVATAR.pattern())) {
+                UUID id = extractUuid(Patterns.USER_AVATAR, path);
+                avatarController.putAvatar(id, request.getPart("avatar").getInputStream());
+                return;
+            }
+        }
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+    }
+
+    protected void doPatch(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String path = parseRequestPath(request);
+        String servletPath = request.getServletPath();
+        if (Paths.API.equals(servletPath)) {
+            if (path.matches(Patterns.USER.pattern())) {
+                UUID uuid = extractUuid(Patterns.USER, path);
+                userController.updateUser(uuid, jsonb.fromJson(request.getReader(), PatchUserRequest.class));
                 return;
             }
         }
@@ -117,9 +147,13 @@ public class ApiServlet extends HttpServlet {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
         if (Paths.API.equals(servletPath)) {
-            if (path.matches(Patterns.USER_AVATAR.pattern())) {
-                UUID uuid = extractUuid(Patterns.USER_AVATAR, path);
-                avatarController.deleteAvatar(uuid);
+            if (path.matches(Patterns.USER.pattern())) {
+                UUID id = extractUuid(Patterns.USER, path);
+                userController.deleteUser(id);
+                return;
+            } else if (path.matches(Patterns.USER_AVATAR.pattern())) {
+                UUID id = extractUuid(Patterns.USER_AVATAR, path);
+                avatarController.deleteAvatar(id);
                 return;
             }
         }
@@ -139,5 +173,22 @@ public class ApiServlet extends HttpServlet {
         String path = request.getPathInfo();
         path = path != null ? path : "";
         return path;
+    }
+
+    public static String createUrl(HttpServletRequest request, String... paths) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(request.getScheme())
+                .append("://")
+                .append(request.getServerName())
+                .append(":")
+                .append(request.getServerPort())
+                .append(request.getContextPath());
+
+        for (String path : paths) {
+            builder.append("/")
+                    .append(path, path.startsWith("/") ? 1 : 0, path.endsWith("/") ? path.length() - 1 : path.length());
+        }
+
+        return builder.toString();
     }
 }

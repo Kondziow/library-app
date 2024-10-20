@@ -4,6 +4,8 @@ import com.demo.rest.book.dto.function.AuthorToResponseFunction;
 import com.demo.rest.book.dto.function.AuthorsToResponseFunction;
 import com.demo.rest.book.dto.function.BookToResponseFunction;
 import com.demo.rest.book.dto.function.BooksToResponseFunction;
+import com.demo.rest.user.dto.function.RequestToUserFunction;
+import com.demo.rest.user.dto.function.UpdateUserWithRequestFunction;
 import com.demo.rest.user.dto.function.UserToResponseFunction;
 import com.demo.rest.user.dto.function.UsersToResponseFunction;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -27,8 +29,9 @@ public class DtoFunctionFactory {
     public UsersToResponseFunction usersToResponse() {
         return new UsersToResponseFunction();
     }
-
     public UserToResponseFunction userToResponse() {
         return new UserToResponseFunction();
     }
+    public RequestToUserFunction requestToUser() {return new RequestToUserFunction();}
+    public UpdateUserWithRequestFunction updateUser() {return new UpdateUserWithRequestFunction();}
 }
