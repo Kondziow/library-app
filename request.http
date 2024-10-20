@@ -9,6 +9,31 @@ GET http://localhost:9080/library-app/api/authors/82a84717-c36c-42c1-b69c-c63546
 ### Get existing author
 GET http://localhost:9080/library-app/api/authors/24a84717-c36c-42c1-b69c-c63546d4449d
 
+### Put new author
+PUT http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+Content-Type: application/json
+
+{
+  "name": "Andrzej",
+  "nationality": "Polish"
+}
+
+### Get new author
+GET http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+
+### Patch new author
+PATCH http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+Content-Type: application/json
+
+{
+  "name": "Jakub",
+  "nationality": "Polish"
+}
+
+### Delete author
+DELETE http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+
+
 #BOOK
 
 ### Get all books

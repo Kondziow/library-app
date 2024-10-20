@@ -1,9 +1,6 @@
 package com.demo.rest.component;
 
-import com.demo.rest.book.dto.function.AuthorToResponseFunction;
-import com.demo.rest.book.dto.function.AuthorsToResponseFunction;
-import com.demo.rest.book.dto.function.BookToResponseFunction;
-import com.demo.rest.book.dto.function.BooksToResponseFunction;
+import com.demo.rest.book.dto.function.*;
 import com.demo.rest.user.dto.function.RequestToUserFunction;
 import com.demo.rest.user.dto.function.UpdateUserWithRequestFunction;
 import com.demo.rest.user.dto.function.UserToResponseFunction;
@@ -18,6 +15,8 @@ public class DtoFunctionFactory {
     public AuthorToResponseFunction authorToResponse() {
         return new AuthorToResponseFunction();
     }
+    public RequestToAuthorFunction requestToAuthor() {return new RequestToAuthorFunction();}
+    public UpdateAuthorWithRequestFunction updateAuthor() {return new UpdateAuthorWithRequestFunction();}
 
     public BooksToResponseFunction booksToResponse() {
         return new BooksToResponseFunction();

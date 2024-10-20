@@ -2,6 +2,8 @@ package com.demo.rest.controller.servlet;
 
 import com.demo.rest.book.controller.api.AuthorController;
 import com.demo.rest.book.controller.api.BookController;
+import com.demo.rest.book.dto.PatchAuthorRequest;
+import com.demo.rest.book.dto.PutAuthorRequest;
 import com.demo.rest.user.avatar.controller.api.AvatarController;
 import com.demo.rest.user.controller.api.UserController;
 import com.demo.rest.user.dto.PatchUserRequest;
@@ -115,7 +117,12 @@ public class ApiServlet extends HttpServlet {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
         if (Paths.API.equals(servletPath)) {
-            if (path.matches(Patterns.USER.pattern())) {
+            if (path.matches(Patterns.AUTHOR.pattern())) {
+                UUID id = extractUuid(Patterns.AUTHOR, path);
+                authorController.putAuthor(id, jsonb.fromJson(request.getReader(), PutAuthorRequest.class));
+                response.addHeader("Location", createUrl(request, Paths.API, "users", id.toString()));
+                return;
+            } else if (path.matches(Patterns.USER.pattern())) {
                 UUID id = extractUuid(Patterns.USER, path);
                 userController.putUser(id, jsonb.fromJson(request.getReader(), PutUserRequest.class));
                 response.addHeader("Location", createUrl(request, Paths.API, "users", id.toString()));
@@ -133,7 +140,11 @@ public class ApiServlet extends HttpServlet {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
         if (Paths.API.equals(servletPath)) {
-            if (path.matches(Patterns.USER.pattern())) {
+            if (path.matches(Patterns.AUTHOR.pattern())) {
+                UUID uuid = extractUuid(Patterns.AUTHOR, path);
+                authorController.updateAuthor(uuid, jsonb.fromJson(request.getReader(), PatchAuthorRequest.class));
+                return;
+            } else if (path.matches(Patterns.USER.pattern())) {
                 UUID uuid = extractUuid(Patterns.USER, path);
                 userController.updateUser(uuid, jsonb.fromJson(request.getReader(), PatchUserRequest.class));
                 return;
@@ -147,7 +158,11 @@ public class ApiServlet extends HttpServlet {
         String path = parseRequestPath(request);
         String servletPath = request.getServletPath();
         if (Paths.API.equals(servletPath)) {
-            if (path.matches(Patterns.USER.pattern())) {
+            if (path.matches(Patterns.AUTHOR.pattern())) {
+                UUID id = extractUuid(Patterns.AUTHOR, path);
+                authorController.deleteAuthor(id);
+                return;
+            } else if (path.matches(Patterns.USER.pattern())) {
                 UUID id = extractUuid(Patterns.USER, path);
                 userController.deleteUser(id);
                 return;

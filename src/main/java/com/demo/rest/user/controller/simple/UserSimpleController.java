@@ -44,12 +44,6 @@ public class UserSimpleController implements UserController {
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
         }
-//        service.findById(id).ifPresentOrElse(
-//                entity -> {
-//                    throw new BadRequestException();
-//                },
-//                () -> service.create(factory.requestToUser().apply(id, request))
-//        );
     }
 
     @Override
