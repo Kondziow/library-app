@@ -24,6 +24,8 @@ public class DtoFunctionFactory {
     public BookToResponseFunction bookToResponse() {
         return new BookToResponseFunction();
     }
+    public RequestToBookFunction requestToBook() {return new RequestToBookFunction();}
+    public UpdateBookWithRequestFunction updateBook() {return new UpdateBookWithRequestFunction();}
 
     public UsersToResponseFunction usersToResponse() {
         return new UsersToResponseFunction();

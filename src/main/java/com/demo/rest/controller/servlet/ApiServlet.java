@@ -3,7 +3,9 @@ package com.demo.rest.controller.servlet;
 import com.demo.rest.book.controller.api.AuthorController;
 import com.demo.rest.book.controller.api.BookController;
 import com.demo.rest.book.dto.PatchAuthorRequest;
+import com.demo.rest.book.dto.PatchBookRequest;
 import com.demo.rest.book.dto.PutAuthorRequest;
+import com.demo.rest.book.dto.PutBookRequest;
 import com.demo.rest.user.avatar.controller.api.AvatarController;
 import com.demo.rest.user.controller.api.UserController;
 import com.demo.rest.user.dto.PatchUserRequest;
@@ -120,7 +122,12 @@ public class ApiServlet extends HttpServlet {
             if (path.matches(Patterns.AUTHOR.pattern())) {
                 UUID id = extractUuid(Patterns.AUTHOR, path);
                 authorController.putAuthor(id, jsonb.fromJson(request.getReader(), PutAuthorRequest.class));
-                response.addHeader("Location", createUrl(request, Paths.API, "users", id.toString()));
+                response.addHeader("Location", createUrl(request, Paths.API, "authors", id.toString()));
+                return;
+            } else if (path.matches(Patterns.BOOK.pattern())) {
+                UUID id = extractUuid(Patterns.BOOK, path);
+                bookController.putBook(id, jsonb.fromJson(request.getReader(), PutBookRequest.class));
+                response.addHeader("Location", createUrl(request, Paths.API, "books", id.toString()));
                 return;
             } else if (path.matches(Patterns.USER.pattern())) {
                 UUID id = extractUuid(Patterns.USER, path);
@@ -144,6 +151,10 @@ public class ApiServlet extends HttpServlet {
                 UUID uuid = extractUuid(Patterns.AUTHOR, path);
                 authorController.updateAuthor(uuid, jsonb.fromJson(request.getReader(), PatchAuthorRequest.class));
                 return;
+            } else if (path.matches(Patterns.BOOK.pattern())) {
+                UUID uuid = extractUuid(Patterns.BOOK, path);
+                bookController.updateBook(uuid, jsonb.fromJson(request.getReader(), PatchBookRequest.class));
+                return;
             } else if (path.matches(Patterns.USER.pattern())) {
                 UUID uuid = extractUuid(Patterns.USER, path);
                 userController.updateUser(uuid, jsonb.fromJson(request.getReader(), PatchUserRequest.class));
@@ -161,6 +172,10 @@ public class ApiServlet extends HttpServlet {
             if (path.matches(Patterns.AUTHOR.pattern())) {
                 UUID id = extractUuid(Patterns.AUTHOR, path);
                 authorController.deleteAuthor(id);
+                return;
+            } else if (path.matches(Patterns.BOOK.pattern())) {
+                UUID id = extractUuid(Patterns.BOOK, path);
+                bookController.deleteBook(id);
                 return;
             } else if (path.matches(Patterns.USER.pattern())) {
                 UUID id = extractUuid(Patterns.USER, path);

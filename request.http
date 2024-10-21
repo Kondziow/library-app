@@ -45,6 +45,35 @@ GET http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff372
 ### Get existing book
 GET http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3f
 
+### Put new book
+PUT http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Content-Type: application/json
+
+{
+  "title": "A book",
+  "releaseDate": "2020-10-11",
+  "genre": "FANTASY",
+  "author": "24a84717-c36c-42c1-b69c-c63546d4449d",
+  "user": "80ed5ffb-a67a-4253-910c-a64134a01ccf"
+}
+
+### Get new book
+GET http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+
+### Patch new book
+PATCH http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Content-Type: application/json
+
+{
+  "title": "A nice book",
+  "releaseDate": "2020-10-11",
+  "genre": "FANTASY"
+}
+
+### Delete book
+DELETE http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+
+
 # PLAYER
 
 ### Get all users

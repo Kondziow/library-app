@@ -4,7 +4,6 @@ import com.demo.rest.book.entity.Genre;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,7 +16,4 @@ public class PatchBookRequest {
     private String title;
     private LocalDate releaseDate;
     private Genre genre;
-
-    private UUID author;
-    private UUID user;
 }
