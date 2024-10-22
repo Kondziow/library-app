@@ -18,18 +18,4 @@ public class GetBookResponse {
     private String title;
     private LocalDate releaseDate;
     private Genre genre;
-
-    private Author author;
-
-    @Getter
-    @Setter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString
-    @EqualsAndHashCode
-    public static class Author {
-        private UUID id;
-        private String name;
-    }
 }
