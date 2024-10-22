@@ -4,6 +4,7 @@ import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.repository.api.BookRepository;
 import com.demo.rest.datastore.DataStore;
+import com.demo.rest.user.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -50,6 +51,12 @@ public class BookInMemoryRepository implements BookRepository {
     public List<Book> findAllByAuthor(Author author) {
         return dataStore.findAllBooks().stream()
                 .filter(book -> author.equals(book.getAuthor()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Book> findAllByUser(User user) {
+        return dataStore.findAllBooks().stream()
+                .filter(book -> user.equals(book.getUser()))
                 .collect(Collectors.toList());
     }
 }

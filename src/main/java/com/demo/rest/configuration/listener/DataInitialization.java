@@ -103,6 +103,7 @@ public class DataInitialization implements ServletContextListener {
                 .releaseDate(LocalDate.of(2024, 12,12))
                 .genre(Genre.FANTASY)
                 .author(Tolkien)
+                .user(Janek)
                 .build();
 
         Book Metro = Book.builder()
@@ -111,6 +112,7 @@ public class DataInitialization implements ServletContextListener {
                 .releaseDate(LocalDate.of(2024, 12,12))
                 .genre(Genre.FANTASY)
                 .author(Glukhovsky)
+                .user(Oskar)
                 .build();
 
         Book Wiedzmin = Book.builder()
@@ -119,6 +121,7 @@ public class DataInitialization implements ServletContextListener {
                 .releaseDate(LocalDate.of(2024, 12,12))
                 .genre(Genre.FANTASY)
                 .author(Sapkowski)
+                .user(Michal)
                 .build();
 
         Book AtomoweNawyki = Book.builder()
@@ -127,6 +130,7 @@ public class DataInitialization implements ServletContextListener {
                 .releaseDate(LocalDate.of(2024, 12,12))
                 .genre(Genre.TUTORIAL)
                 .author(Clear)
+                .user(Kacper)
                 .build();
 
         bookService.create(LOTR);

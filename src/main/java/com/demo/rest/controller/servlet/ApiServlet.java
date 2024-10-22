@@ -53,6 +53,7 @@ public class ApiServlet extends HttpServlet {
         public static final Pattern USER_AVATAR = Pattern.compile("/users/(%s)/avatar".formatted(UUID.pattern()));
 
         public static final Pattern AUTHOR_BOOKS = Pattern.compile("/authors/(%s)/books".formatted(UUID.pattern()));
+        public static final Pattern USER_BOOKS = Pattern.compile("/users/(%s)/books".formatted(UUID.pattern()));
     }
 
     @Inject
@@ -115,6 +116,11 @@ public class ApiServlet extends HttpServlet {
                 response.setContentType("application/json");
                 UUID id = extractUuid(Patterns.AUTHOR_BOOKS, path);
                 response.getWriter().write(jsonb.toJson(bookController.getAuthorBook(id)));
+                return;
+            } else if (path.matches(Patterns.USER_BOOKS.pattern())) {
+                response.setContentType("application/json");
+                UUID id = extractUuid(Patterns.USER_BOOKS, path);
+                response.getWriter().write(jsonb.toJson(bookController.getUserBook(id)));
                 return;
             }
         }
