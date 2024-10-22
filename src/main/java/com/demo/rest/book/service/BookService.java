@@ -1,6 +1,7 @@
 package com.demo.rest.book.service;
 
 import com.demo.rest.book.entity.Book;
+import com.demo.rest.book.repository.api.AuthorRepository;
 import com.demo.rest.book.repository.api.BookRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,10 +15,12 @@ import java.util.UUID;
 @NoArgsConstructor(force = true)
 public class BookService {
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @Inject
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
+        this.authorRepository = authorRepository;
     }
 
     public Optional<Book> findById(UUID id) { return bookRepository.find(id);}
@@ -29,4 +32,9 @@ public class BookService {
     public void update(Book book) { bookRepository.update(book);}
 
     public void delete(UUID id) {bookRepository.delete(bookRepository.find(id).orElseThrow());}
+
+    public Optional<List<Book>> findAllByAuthor(UUID id) {
+        return authorRepository.find(id)
+                .map(bookRepository::findAllByAuthor);
+    }
 }

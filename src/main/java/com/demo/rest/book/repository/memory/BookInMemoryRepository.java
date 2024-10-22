@@ -1,5 +1,6 @@
 package com.demo.rest.book.repository.memory;
 
+import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.repository.api.BookRepository;
 import com.demo.rest.datastore.DataStore;
@@ -9,6 +10,7 @@ import jakarta.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class BookInMemoryRepository implements BookRepository {
@@ -43,5 +45,11 @@ public class BookInMemoryRepository implements BookRepository {
         @Override
     public void delete(Book entity) {
             dataStore.deleteBook(entity.getId());
+    }
+
+    public List<Book> findAllByAuthor(Author author) {
+        return dataStore.findAllBooks().stream()
+                .filter(book -> author.equals(book.getAuthor()))
+                .collect(Collectors.toList());
     }
 }

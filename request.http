@@ -33,8 +33,22 @@ Content-Type: application/json
 ### Delete author
 DELETE http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
 
+###
 
 #BOOK
+
+### Get Books by Author
+GET http://localhost:9080/library-app/api/authors/24a84717-c36c-42c1-b69c-c63546d4449d/books
+
+### Patch atomic habits
+PATCH http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3f
+Content-Type: application/json
+
+{
+  "title": "Atomic habits updated",
+  "releaseDate": "2020-10-11",
+  "genre": "TUTORIAL"
+}
 
 ### Get all books
 GET http://localhost:9080/library-app/api/books

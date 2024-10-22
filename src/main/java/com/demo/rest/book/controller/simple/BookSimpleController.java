@@ -37,6 +37,13 @@ public class BookSimpleController implements BookController {
                 .orElseThrow(NotFoundException::new);
     }
 
+
+    public GetBooksResponse getAuthorBook(UUID id) {
+        return service.findAllByAuthor(id)
+                .map(factory.booksToResponse())
+                .orElseThrow(NotFoundException::new);
+    }
+
     @Override
     public void putBook(UUID id, PutBookRequest request) {
         try {

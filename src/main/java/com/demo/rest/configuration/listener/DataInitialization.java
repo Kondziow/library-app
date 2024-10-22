@@ -68,39 +68,6 @@ public class DataInitialization implements ServletContextListener {
         authorService.create(Sapkowski);
         authorService.create(Clear);
 
-        Book LOTR = Book.builder()
-                .id(UUID.fromString("c8bd0b54-3e08-4722-a12b-0d6ee72e05ff"))
-                .title("The Lord of The Rings")
-                .releaseDate(LocalDate.of(2024, 12,12))
-                .genre(Genre.FANTASY)
-                .build();
-
-        Book Metro = Book.builder()
-                .id(UUID.fromString("c1346fc2-2d0e-4468-a705-aad53f3b3f97"))
-                .title("Metro 2033")
-                .releaseDate(LocalDate.of(2024, 12,12))
-                .genre(Genre.FANTASY)
-                .build();
-
-        Book Wiedzmin = Book.builder()
-                .id(UUID.fromString("9a212540-a4c5-4308-be8c-4e0ae88104a2"))
-                .title("The Withcer")
-                .releaseDate(LocalDate.of(2024, 12,12))
-                .genre(Genre.FANTASY)
-                .build();
-
-        Book AtomoweNawyki = Book.builder()
-                .id(UUID.fromString("7863889b-51ec-49d8-b7ea-2beff3724c3f"))
-                .title("Atomic habits")
-                .releaseDate(LocalDate.of(2024, 12,12))
-                .genre(Genre.TUTORIAL)
-                .build();
-
-        bookService.create(LOTR);
-        bookService.create(Metro);
-        bookService.create(Wiedzmin);
-        bookService.create(AtomoweNawyki);
-
         User Janek = User.builder()
                 .id(UUID.fromString("67096e6b-5bf5-47c0-8d1d-f92c99a18858"))
                 .username("Janek")
@@ -129,6 +96,43 @@ public class DataInitialization implements ServletContextListener {
         userService.create(Oskar);
         userService.create(Michal);
         userService.create(Kacper);
+
+        Book LOTR = Book.builder()
+                .id(UUID.fromString("c8bd0b54-3e08-4722-a12b-0d6ee72e05ff"))
+                .title("The Lord of The Rings")
+                .releaseDate(LocalDate.of(2024, 12,12))
+                .genre(Genre.FANTASY)
+                .author(Tolkien)
+                .build();
+
+        Book Metro = Book.builder()
+                .id(UUID.fromString("c1346fc2-2d0e-4468-a705-aad53f3b3f97"))
+                .title("Metro 2033")
+                .releaseDate(LocalDate.of(2024, 12,12))
+                .genre(Genre.FANTASY)
+                .author(Glukhovsky)
+                .build();
+
+        Book Wiedzmin = Book.builder()
+                .id(UUID.fromString("9a212540-a4c5-4308-be8c-4e0ae88104a2"))
+                .title("The Withcer")
+                .releaseDate(LocalDate.of(2024, 12,12))
+                .genre(Genre.FANTASY)
+                .author(Sapkowski)
+                .build();
+
+        Book AtomoweNawyki = Book.builder()
+                .id(UUID.fromString("7863889b-51ec-49d8-b7ea-2beff3724c3f"))
+                .title("Atomic habits")
+                .releaseDate(LocalDate.of(2024, 12,12))
+                .genre(Genre.TUTORIAL)
+                .author(Clear)
+                .build();
+
+        bookService.create(LOTR);
+        bookService.create(Metro);
+        bookService.create(Wiedzmin);
+        bookService.create(AtomoweNawyki);
 
         requestContextController.deactivate();
     }
