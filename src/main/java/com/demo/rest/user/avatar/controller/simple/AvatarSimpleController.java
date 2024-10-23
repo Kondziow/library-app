@@ -28,7 +28,7 @@ public class AvatarSimpleController implements AvatarController {
 
     @Override
     public void putAvatar(UUID id, InputStream avatar) {
-        userService.findById(id).ifPresentOrElse(
+        userService.find(id).ifPresentOrElse(
                 entity -> avatarService.updateAvatar(id, avatar),
                 () -> {
                     throw new NotFoundException();

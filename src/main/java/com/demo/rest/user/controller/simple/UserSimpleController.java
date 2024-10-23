@@ -32,7 +32,7 @@ public class UserSimpleController implements UserController {
 
     @Override
     public GetUserResponse getUser(UUID id) {
-        return service.findById(id)
+        return service.find(id)
                 .map(factory.userToResponse())
                 .orElseThrow(NotFoundException::new);
     }
@@ -48,7 +48,7 @@ public class UserSimpleController implements UserController {
 
     @Override
     public void updateUser(UUID id, PatchUserRequest request) {
-        service.findById(id).ifPresentOrElse(
+        service.find(id).ifPresentOrElse(
                 entity -> service.update(factory.updateUser().apply(entity, request)),
                 () -> {
                     throw new NotFoundException();
@@ -58,7 +58,7 @@ public class UserSimpleController implements UserController {
 
     @Override
     public void deleteUser(UUID id) {
-        service.findById(id).ifPresentOrElse(
+        service.find(id).ifPresentOrElse(
                 entity -> service.delete(id),
                 () -> {
                     throw new NotFoundException();

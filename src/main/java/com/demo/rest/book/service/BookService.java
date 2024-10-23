@@ -26,7 +26,7 @@ public class BookService {
         this.userRepository = userRepository;
     }
 
-    public Optional<Book> findById(UUID id) { return bookRepository.find(id);}
+    public Optional<Book> find(UUID id) { return bookRepository.find(id);}
 
     public List<Book> findAll() { return bookRepository.findAll();}
 

@@ -52,7 +52,7 @@ public class DataStore {
     }
 
     public void createAuthor(Author value) throws IllegalArgumentException {
-        if (authors.stream().anyMatch((character) -> character.getId().equals(value.getId()))) {
+        if (authors.stream().anyMatch((author) -> author.getId().equals(value.getId()))) {
             throw new IllegalArgumentException("The author id \"%s\" is not unique".formatted(value.getId()));
         } else {
             authors.add(cloningUtility.clone(value));
@@ -60,7 +60,7 @@ public class DataStore {
     }
 
     public void updateAuthor(Author value) throws IllegalArgumentException {
-        if (authors.removeIf((character) -> character.getId().equals(value.getId()))) {
+        if (authors.removeIf((author) -> author.getId().equals(value.getId()))) {
             authors.add(cloningUtility.clone(value));
         } else {
             throw new NotFoundException("The author with id \"%s\" does not exist".formatted(value.getId()));
@@ -80,7 +80,7 @@ public class DataStore {
     }
 
     public void createBook(Book value) throws IllegalArgumentException {
-        if (books.stream().anyMatch((character) -> character.getId().equals(value.getId()))) {
+        if (books.stream().anyMatch((book) -> book.getId().equals(value.getId()))) {
             throw new IllegalArgumentException("The book id \"%s\" is not unique".formatted(value.getId()));
         } else {
             Book entity = cloneBookWithRelationships(value);
@@ -90,7 +90,7 @@ public class DataStore {
 
     public void updateBook(Book value) throws IllegalArgumentException {
         Book entity = cloneBookWithRelationships(value);
-        if (books.removeIf((character) -> character.getId().equals(value.getId()))) {
+        if (books.removeIf((book) -> book.getId().equals(value.getId()))) {
             books.add(entity);
         } else {
             throw new NotFoundException("The book with id \"%s\" does not exist".formatted(value.getId()));
@@ -110,7 +110,7 @@ public class DataStore {
     }
 
     public void createUser(User value) throws IllegalArgumentException {
-        if (users.stream().anyMatch((character) -> character.getId().equals(value.getId()))) {
+        if (users.stream().anyMatch((user) -> user.getId().equals(value.getId()))) {
             throw new IllegalArgumentException("The user id \"%s\" is not unique".formatted(value.getId()));
         } else {
             users.add(cloningUtility.clone(value));
@@ -118,7 +118,7 @@ public class DataStore {
     }
 
     public void updateUser(User value) throws IllegalArgumentException {
-        if (users.removeIf((character) -> character.getId().equals(value.getId()))) {
+        if (users.removeIf((user) -> user.getId().equals(value.getId()))) {
             users.add(cloningUtility.clone(value));
         } else {
             throw new NotFoundException("The user with id \"%s\" does not exist".formatted(value.getId()));

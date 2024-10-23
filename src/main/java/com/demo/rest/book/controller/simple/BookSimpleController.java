@@ -32,7 +32,7 @@ public class BookSimpleController implements BookController {
 
     @Override
     public GetBookResponse getBook(UUID id) {
-        return service.findById(id)
+        return service.find(id)
                 .map(factory.bookToResponse())
                 .orElseThrow(NotFoundException::new);
     }
@@ -62,7 +62,7 @@ public class BookSimpleController implements BookController {
 
     @Override
     public void updateBook(UUID id, PatchBookRequest request) {
-        service.findById(id).ifPresentOrElse(
+        service.find(id).ifPresentOrElse(
                 entity -> service.update(factory.updateBook().apply(entity, request)),
                 () -> {
                     throw new NotFoundException();
@@ -72,7 +72,7 @@ public class BookSimpleController implements BookController {
 
     @Override
     public void deleteBook(UUID id) {
-        service.findById(id).ifPresentOrElse(
+        service.find(id).ifPresentOrElse(
                 entity -> service.delete(id),
                 () -> {
                     throw new NotFoundException();
