@@ -32,7 +32,7 @@ public class AuthorSimpleController implements AuthorController {
 
     @Override
     public GetAuthorResponse getAuthor(UUID id) {
-        return service.findById(id)
+        return service.find(id)
                 .map(factory.authorToResponse())
                 .orElseThrow(NotFoundException::new);
     }
@@ -48,7 +48,7 @@ public class AuthorSimpleController implements AuthorController {
 
     @Override
     public void updateAuthor(UUID id, PatchAuthorRequest request) {
-        service.findById(id).ifPresentOrElse(
+        service.find(id).ifPresentOrElse(
                 entity -> service.update(factory.updateAuthor().apply(entity, request)),
                 () -> {
                     throw new NotFoundException();
@@ -58,7 +58,7 @@ public class AuthorSimpleController implements AuthorController {
 
     @Override
     public void deleteAuthor(UUID id) {
-        service.findById(id).ifPresentOrElse(
+        service.find(id).ifPresentOrElse(
                 entity -> service.delete(id),
                 () -> {
                     throw new NotFoundException();

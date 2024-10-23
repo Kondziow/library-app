@@ -20,7 +20,7 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public Optional<Author> findById(UUID id) { return authorRepository.find(id);}
+    public Optional<Author> find(UUID id) { return authorRepository.find(id);}
 
     public List<Author> findAll() { return authorRepository.findAll();}
 
