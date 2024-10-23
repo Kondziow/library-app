@@ -1,0 +1,52 @@
+### Get all users
+GET http://localhost:9080/library-app/api/users
+
+### Get user not exist
+GET http://localhost:9080/library-app/api/users/7863889b-51ec-49d8-b7ea-2beff3724c3a
+
+### Get Kacper
+GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf
+
+### Put new user
+PUT http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
+Content-Type: application/json
+
+{
+  "username": "Konrad",
+  "emailAddress": "Konrad@gmail.com"
+}
+
+### Get new user
+GET http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
+
+### Patch new user
+PATCH http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
+Content-Type: application/json
+
+{
+  "username": "Konrad",
+  "emailAddress": "Konrad@onet.com"
+}
+
+### Delete user
+DELETE http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
+
+### Get user not exist avatar
+GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01cca/avatar
+
+### Get Kacper avatar
+GET http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf/avatar
+
+### Put Kacper avatar
+PUT http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf/avatar
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="80ed5ffb-a67a-4253-910c-a64134a01ccf.png"
+Content-Type: image/png
+
+< ./src/main/resources/avatar/80ed5ffb-a67a-4253-910c-a64134a01ccf.png
+--boundary--
+
+### Delete Kacper avatar
+DELETE http://localhost:9080/library-app/api/users/80ed5ffb-a67a-4253-910c-a64134a01ccf/avatar

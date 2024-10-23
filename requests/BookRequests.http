@@ -1,0 +1,64 @@
+### Get all books
+GET http://localhost:9080/library-app/api/books
+
+### Get book not exist
+GET http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3e
+
+### Get existing book
+GET http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3f
+
+### Put new book
+PUT http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Content-Type: application/json
+
+{
+  "title": "A book",
+  "releaseDate": "2020-10-11",
+  "genre": "FANTASY",
+  "author": "24a84717-c36c-42c1-b69c-c63546d4449d",
+  "user": "80ed5ffb-a67a-4253-910c-a64134a01ccf"
+}
+
+### Get new book
+GET http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+
+### Patch new book
+PATCH http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Content-Type: application/json
+
+{
+  "title": "A nice book",
+  "releaseDate": "2020-10-11",
+  "genre": "FANTASY"
+}
+
+### Delete book
+DELETE http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+
+
+
+### Get Books by Author
+GET http://localhost:9080/library-app/api/authors/24a84717-c36c-42c1-b69c-c63546d4449d/books
+
+### Patch atomic habits
+PATCH http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3f
+Content-Type: application/json
+
+{
+  "title": "Atomic habits updated",
+  "releaseDate": "2020-10-11",
+  "genre": "TUTORIAL"
+}
+
+### Get Books by User
+GET http://localhost:9080/library-app/api/users/e6b416b3-5b6e-4303-b423-16ab1de3afc1/books
+
+### Patch the witcher
+PATCH http://localhost:9080/library-app/api/books/9a212540-a4c5-4308-be8c-4e0ae88104a2
+Content-Type: application/json
+
+{
+  "title": "The Withcer updated",
+  "releaseDate": "2024-12-12",
+  "genre": "FANTASY"
+}
