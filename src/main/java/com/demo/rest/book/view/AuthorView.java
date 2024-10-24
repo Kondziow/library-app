@@ -6,7 +6,6 @@ import com.demo.rest.book.model.BooksModel;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.ModelFunctionFactory;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
