@@ -13,12 +13,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.UUID;
 
 @ViewScoped
 @Named
-public class BookEdit {
+public class BookEdit implements Serializable {
     private final BookService service;
     private final ModelFunctionFactory factory;
 

@@ -68,6 +68,8 @@ public class DataStore {
     }
 
     public void deleteAuthor(UUID id) {
+        books.removeIf(book -> book.getAuthor().getId().equals(id));
+
         if (!authors.removeIf(author -> author.getId().equals(id))) {
             throw new NotFoundException("The author with id \"%s\" does not exist".formatted(id));
         }

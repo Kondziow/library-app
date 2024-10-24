@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:f="jakarta.faces.core"
+                template="/WEB-INF/template/main.xhtml">
+
+    <ui:define name="content">
+        <h:outputStylesheet library="book" name="css/book_list.css"/><!-- Automatically relocated to head. -->
+
+        <article class="text--justified">
+            <header><h2>Books</h2></header>
+
+            <h:dataTable value="#{bookList.books.books}" var="book"
+                         styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
+                <h:column>
+                    <f:facet name="header">Title</f:facet>
+                    <h:outputText value="#{book.title}"/>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">View</f:facet>
+                    <h:link outcome="/book/book_view.xhtml" value="View">
+                        <f:param name="id" value="#{book.id}"/>
+                    </h:link>
+                </h:column>
+            </h:dataTable>
+        </article>
+    </ui:define>
+
+</ui:composition>

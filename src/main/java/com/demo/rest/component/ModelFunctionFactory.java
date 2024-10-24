@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class ModelFunctionFactory {
     public AuthorToModelFunction authorToModel() {return new AuthorToModelFunction();}
+    public AuthorsToModelFunction authorsToModel() {return new AuthorsToModelFunction();}
     public BooksToModelFunction booksToModel() {return new BooksToModelFunction();}
     public BookToEditModelFunction bookToEditModel() {return new BookToEditModelFunction();}
     public BookToModelFunction bookToModel() {return new BookToModelFunction();}
