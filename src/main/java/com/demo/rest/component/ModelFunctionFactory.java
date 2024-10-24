@@ -8,9 +8,11 @@ public class ModelFunctionFactory {
     public AuthorToModelFunction authorToModel() {return new AuthorToModelFunction();}
     public AuthorsToModelFunction authorsToModel() {return new AuthorsToModelFunction();}
     public ModelToAuthorFunction modelToAuthor() {return new ModelToAuthorFunction();}
-    public BooksToModelFunction booksToModel() {return new BooksToModelFunction();}
-    public BookToEditModelFunction bookToEditModel() {return new BookToEditModelFunction();}
+    public AuthorToEditModelFunction authorToEditModel() {return new AuthorToEditModelFunction();}
+    public UpdateAuthorWithModelFunction updateAuthor() {return new UpdateAuthorWithModelFunction();}
     public BookToModelFunction bookToModel() {return new BookToModelFunction();}
+    public BooksToModelFunction booksToModel() {return new BooksToModelFunction();}
     public ModelToBookFunction modelToBook() {return new ModelToBookFunction();}
+    public BookToEditModelFunction bookToEditModel() {return new BookToEditModelFunction();}
     public UpdateBookWithModelFunction updateBook() {return new UpdateBookWithModelFunction();}
 }

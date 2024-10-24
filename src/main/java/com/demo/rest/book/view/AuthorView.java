@@ -54,9 +54,6 @@ public class AuthorView implements Serializable {
     }
 
     public String deleteBook(BooksModel.Book book) {
-        System.out.println("-------------------------");
-        System.out.println(book);
-        System.out.println("-------------------------");
         bookService.delete(book.getId());
         return "author_view?faces-redirect=true&id=" + this.id;
     }

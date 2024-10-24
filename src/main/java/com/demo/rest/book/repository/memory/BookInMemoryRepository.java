@@ -50,7 +50,7 @@ public class BookInMemoryRepository implements BookRepository {
 
     public List<Book> findAllByAuthor(Author author) {
         return dataStore.findAllBooks().stream()
-                .filter(book -> author.equals(book.getAuthor()))
+                .filter(book -> author.getId().equals(book.getAuthor().getId()))
                 .collect(Collectors.toList());
     }
 
