@@ -52,7 +52,8 @@
                                                       value="#{bookCreate.book.author}"
                                                       styleClass="form-check-input"
                                                       enabledClass="form-check-label"
-                                                      converter="authorModelConverter">
+                                                      converter="authorModelConverter"
+                                    required="true">
                                         <f:selectItem itemValue="#{author}" itemLabel="#{author.name}"/>
                                     </h:selectOneRadio>
                                 </div>
