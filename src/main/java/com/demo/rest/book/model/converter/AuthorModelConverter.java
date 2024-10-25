@@ -13,7 +13,7 @@ import jakarta.inject.Inject;
 import java.util.Optional;
 import java.util.UUID;
 
-@FacesConverter(forClass = AuthorModel.class, managed = true)
+@FacesConverter(managed = true, value = "authorModelConverter")
 public class AuthorModelConverter implements Converter<AuthorModel> {
     private final AuthorService service;
     private final ModelFunctionFactory factory;

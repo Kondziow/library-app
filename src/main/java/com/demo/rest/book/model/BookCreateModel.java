@@ -16,7 +16,7 @@ import java.util.UUID;
 public class BookCreateModel {
     private UUID id;
     private String title;
-    private LocalDate releaseDate;
+    private String releaseDate;
     private Genre genre;
     private AuthorModel author;
 }

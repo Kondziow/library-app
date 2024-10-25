@@ -52,29 +52,15 @@ public class BookCreate implements Serializable {
         }
     }
 
-    public String goToAuthorAction() {
-        return "/book/book_create__author.xhtml?faces-redirect=true";
-    }
-    public Object goToBasicAction() {
-        return "/book/book_create__basic.xhtml?faces-redirect=true";
-    }
-
     public String cancelAction() {
         conversation.end();
         return "/book/book_list.xhtml?faces-redirect=true";
     }
 
-    public String goToConfirmAction() {
-        return "/book/book_create__confirm.xhtml?faces-redirect=true";
-    }
-
     public String saveAction() {
+        System.out.println(book);
         bookService.create(factory.modelToBook().apply(book));
         conversation.end();
         return "/book/book_list.xhtml?faces-redirect=true";
-    }
-
-    public String getConversationId() {
-        return conversation.getId();
     }
 }

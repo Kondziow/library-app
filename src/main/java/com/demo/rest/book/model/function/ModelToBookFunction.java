@@ -5,14 +5,29 @@ import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.model.BookCreateModel;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.function.Function;
 
 public class ModelToBookFunction implements Function<BookCreateModel, Book>, Serializable {
+    public static LocalDate convertStringToLocalDate(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try {
+            return LocalDate.parse(dateString, formatter);
+        } catch (DateTimeParseException e) {
+            System.out.println("Nieprawidłowy format daty: " + dateString);
+            return null;
+        }
+    }
     @Override
     public Book apply(BookCreateModel model) {
+        System.out.println(model);
         return Book.builder()
                 .id(model.getId())
-                .releaseDate(model.getReleaseDate())
+                .title(model.getTitle())
+                .releaseDate(convertStringToLocalDate(model.getReleaseDate()))
                 .genre(model.getGenre())
                 .author(Author.builder()
                         .id(model.getAuthor().getId())
