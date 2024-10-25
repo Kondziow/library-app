@@ -40,7 +40,6 @@ public class AuthorEdit implements Serializable {
         Optional<Author> author = service.find(id);
         if (author.isPresent()) {
             this.author = factory.authorToEditModel().apply(author.get());
-            System.out.println("========================");
         } else {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Author not found");
         }

@@ -1,5 +1,6 @@
 package com.demo.rest.book.model;
 
+import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Genre;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class BookEditModel {
     private String title;
-    private LocalDate releaseDate;
+    private String releaseDate;
     private Genre genre;
+    private AuthorModel author;
 }

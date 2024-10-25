@@ -21,6 +21,7 @@ public class ModelToBookFunction implements Function<BookCreateModel, Book>, Ser
             return null;
         }
     }
+
     @Override
     public Book apply(BookCreateModel model) {
         System.out.println(model);

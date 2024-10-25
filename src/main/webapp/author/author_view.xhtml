@@ -52,6 +52,13 @@
                     </h:column>
 
                     <h:column>
+                        <f:facet name="header">Edit</f:facet>
+                        <h:link outcome="/book/book_edit.xhtml" value="Edit">
+                            <f:param name="id" value="#{book.id}"/>
+                        </h:link>
+                    </h:column>
+
+                    <h:column>
                         <f:facet name="header">Delete</f:facet>
                         <h:form>
                             <h:commandButton styleClass="btn" value="Delete"
