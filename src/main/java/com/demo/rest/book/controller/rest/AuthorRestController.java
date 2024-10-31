@@ -1,4 +1,4 @@
-package com.demo.rest.book.controller.simple;
+package com.demo.rest.book.controller.rest;
 
 import com.demo.rest.book.controller.api.AuthorController;
 import com.demo.rest.book.dto.GetAuthorResponse;
@@ -7,22 +7,38 @@ import com.demo.rest.book.dto.PatchAuthorRequest;
 import com.demo.rest.book.dto.PutAuthorRequest;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.component.DtoFunctionFactory;
-import com.demo.rest.controller.servlet.exception.BadRequestException;
-import com.demo.rest.controller.servlet.exception.NotFoundException;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 import java.util.UUID;
 
-@RequestScoped
-public class AuthorSimpleController implements AuthorController {
+@Path("")
+public class AuthorRestController implements AuthorController {
     private final AuthorService service;
     private final DtoFunctionFactory factory;
+    private final UriInfo uriInfo;
+
+    private HttpServletResponse response;
+
+    @Context
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
 
     @Inject
-    public AuthorSimpleController(AuthorService service, DtoFunctionFactory factory) {
+    public AuthorRestController(AuthorService service,
+                                DtoFunctionFactory factory,
+                                @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo) {
         this.service = service;
         this.factory = factory;
+        this.uriInfo = uriInfo;
     }
 
     @Override
@@ -41,6 +57,13 @@ public class AuthorSimpleController implements AuthorController {
     public void putAuthor(UUID id, PutAuthorRequest request) {
         try {
             service.create(factory.requestToAuthor().apply(id, request));
+
+            response.setHeader("Location", uriInfo.getBaseUriBuilder()
+                    .path(AuthorController.class, "getAuthor")
+                    .build(id)
+                    .toString());
+
+            throw new WebApplicationException(Response.Status.CREATED);
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
         }

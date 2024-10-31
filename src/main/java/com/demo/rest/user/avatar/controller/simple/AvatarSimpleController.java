@@ -1,11 +1,11 @@
 package com.demo.rest.user.avatar.controller.simple;
 
-import com.demo.rest.controller.servlet.exception.NotFoundException;
 import com.demo.rest.user.avatar.controller.api.AvatarController;
 import com.demo.rest.user.avatar.service.AvatarService;
 import com.demo.rest.user.service.UserService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
 
 import java.io.InputStream;
 import java.util.UUID;

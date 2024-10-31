@@ -1,8 +1,6 @@
 package com.demo.rest.user.controller.simple;
 
 import com.demo.rest.component.DtoFunctionFactory;
-import com.demo.rest.controller.servlet.exception.BadRequestException;
-import com.demo.rest.controller.servlet.exception.NotFoundException;
 import com.demo.rest.user.controller.api.UserController;
 import com.demo.rest.user.dto.GetUserResponse;
 import com.demo.rest.user.dto.GetUsersResponse;
@@ -11,6 +9,8 @@ import com.demo.rest.user.dto.PutUserRequest;
 import com.demo.rest.user.service.UserService;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
 
 import java.util.UUID;
 

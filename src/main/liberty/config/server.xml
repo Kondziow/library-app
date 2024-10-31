@@ -6,6 +6,7 @@
         <feature>microProfile-6.1</feature>
         <feature>cdi-4.0</feature>
         <feature>faces-4.0</feature>
+        <feature>restfulWS-3.1</feature>
     </featureManager>
 
     <basicRegistry id="basic" realm="BasicRealm">

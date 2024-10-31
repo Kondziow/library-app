@@ -1,15 +1,46 @@
 package com.demo.rest.book.controller.api;
 
 import com.demo.rest.book.dto.*;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
 import java.util.UUID;
 
+@Path("")
 public interface BookController {
+
+    @GET
+    @Path("/books")
+    @Produces(MediaType.APPLICATION_JSON)
     GetBooksResponse getBooks();
-    GetBookResponse getBook(UUID id);
-    GetBooksResponse getAuthorBook(UUID id);
-    GetBooksResponse getUserBook(UUID id);
-    void putBook(UUID id, PutBookRequest request);
-    void updateBook(UUID id, PatchBookRequest request);
-    void deleteBook(UUID id);
+
+    @GET
+    @Path("/books/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetBookResponse getBook(@PathParam("id") UUID id);
+
+    @GET
+    @Path("/authors/{id}/books")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetBooksResponse getAuthorBook(@PathParam("id") UUID id);
+
+    @GET
+    @Path("/users/{id}/books")
+    @Produces(MediaType.APPLICATION_JSON)
+    GetBooksResponse getUserBook(@PathParam("id") UUID id);
+
+    @PUT
+    @Path("/books/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    void putBook(@PathParam("id") UUID id, PutBookRequest request);
+
+    @PATCH
+    @Path("/books/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    void updateBook(@PathParam("id") UUID id, PatchBookRequest request);
+
+    @DELETE
+    @Path("/books/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    void deleteBook(@PathParam("id") UUID id);
 }

@@ -1,5 +1,6 @@
-package com.demo.rest.book.controller.simple;
+package com.demo.rest.book.controller.rest;
 
+import com.demo.rest.book.controller.api.AuthorController;
 import com.demo.rest.book.controller.api.BookController;
 import com.demo.rest.book.dto.GetBookResponse;
 import com.demo.rest.book.dto.GetBooksResponse;
@@ -7,22 +8,38 @@ import com.demo.rest.book.dto.PatchBookRequest;
 import com.demo.rest.book.dto.PutBookRequest;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.DtoFunctionFactory;
-import com.demo.rest.controller.servlet.exception.BadRequestException;
-import com.demo.rest.controller.servlet.exception.NotFoundException;
-import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.BadRequestException;
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 import java.util.UUID;
 
-@RequestScoped
+@Path("")
 public class BookSimpleController implements BookController {
     private final BookService service;
     private final DtoFunctionFactory factory;
+    private final UriInfo uriInfo;
+
+    private HttpServletResponse response;
+
+    @Context
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
 
     @Inject
-    public BookSimpleController(BookService service, DtoFunctionFactory factory) {
+    public BookSimpleController(BookService service,
+                                DtoFunctionFactory factory,
+                                @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo) {
         this.service = service;
         this.factory = factory;
+        this.uriInfo = uriInfo;
     }
 
     @Override
@@ -55,6 +72,13 @@ public class BookSimpleController implements BookController {
     public void putBook(UUID id, PutBookRequest request) {
         try {
             service.create(factory.requestToBook().apply(id, request));
+
+            response.setHeader("Location", uriInfo.getBaseUriBuilder()
+                    .path(AuthorController.class, "getBook")
+                    .build(id)
+                    .toString());
+
+            throw new WebApplicationException(Response.Status.CREATED);
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
         }
