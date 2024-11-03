@@ -67,8 +67,9 @@
                     </h:column>
 
                     <f:facet name="footer">
-                        <h:button styleClass="btn" outcome="/book/book_create.xhtml"
-                                  value="Create new book"/>
+                        <h:button styleClass="btn" outcome="/book/book_create.xhtml" value="Create new book">
+                            <f:param name="id" value="#{authorView.author.id}"/>
+                        </h:button>
                     </f:facet>
                 </h:dataTable>
 

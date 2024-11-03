@@ -6,6 +6,7 @@
                 template="/WEB-INF/template/main.xhtml">
 
     <f:metadata>
+        <f:viewParam name="id" value="#{bookCreate.authorId}" required="true"/>
         <f:viewAction action="#{bookCreate.init()}"/>
     </f:metadata>
 
@@ -39,26 +40,6 @@
                                          styleClass="form-control"/>
                             <h:outputLabel for="genre" value="Genre:" styleClass="form-label"/>
                         </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-4 p-2">
-                        <fieldset>
-                            <legend class="form-label fs-6">Author:</legend>
-                            <ui:repeat value="#{bookCreate.authors}" var="author">
-                                <div class="form-check">
-                                    <h:selectOneRadio id="radioId" group="profesion"
-                                                      value="#{bookCreate.book.author}"
-                                                      styleClass="form-check-input"
-                                                      enabledClass="form-check-label"
-                                                      converter="authorModelConverter"
-                                    required="true">
-                                        <f:selectItem itemValue="#{author}" itemLabel="#{author.name}"/>
-                                    </h:selectOneRadio>
-                                </div>
-                            </ui:repeat>
-                        </fieldset>
                     </div>
                 </div>
 

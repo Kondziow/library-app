@@ -18,5 +18,4 @@ public class BookCreateModel {
     private String title;
     private String releaseDate;
     private Genre genre;
-    private AuthorModel author;
 }

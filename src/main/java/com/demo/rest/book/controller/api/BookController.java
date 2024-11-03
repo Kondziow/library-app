@@ -30,9 +30,9 @@ public interface BookController {
     GetBooksResponse getUserBook(@PathParam("id") UUID id);
 
     @PUT
-    @Path("/books/{id}")
+    @Path("/authors/{authorId}/books/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
-    void putBook(@PathParam("id") UUID id, PutBookRequest request);
+    void putBook(@PathParam("authorId") UUID authorId, @PathParam("bookId") UUID bookId, PutBookRequest request);
 
     @PATCH
     @Path("/books/{id}")

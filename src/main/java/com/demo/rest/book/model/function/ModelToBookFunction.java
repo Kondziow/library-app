@@ -30,9 +30,6 @@ public class ModelToBookFunction implements Function<BookCreateModel, Book>, Ser
                 .title(model.getTitle())
                 .releaseDate(convertStringToLocalDate(model.getReleaseDate()))
                 .genre(model.getGenre())
-                .author(Author.builder()
-                        .id(model.getAuthor().getId())
-                        .build())
                 .build();
     }
 }

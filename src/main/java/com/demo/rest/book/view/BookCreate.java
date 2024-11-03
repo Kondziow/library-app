@@ -10,6 +10,7 @@ import jakarta.enterprise.context.ConversationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.java.Log;
 
 import java.io.Serializable;
@@ -25,6 +26,10 @@ public class BookCreate implements Serializable {
     private final AuthorService authorService;
     private final ModelFunctionFactory factory;
     private final Conversation conversation;
+
+    @Getter
+    @Setter
+    UUID authorId;
 
     @Getter
     BookCreateModel book;
@@ -58,8 +63,7 @@ public class BookCreate implements Serializable {
     }
 
     public String saveAction() {
-        System.out.println(book);
-        bookService.create(factory.modelToBook().apply(book));
+        bookService.create(factory.modelToBook().apply(book), authorId);
         conversation.end();
         return "/book/book_list.xhtml?faces-redirect=true";
     }

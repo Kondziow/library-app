@@ -6,6 +6,7 @@ import com.demo.rest.book.repository.api.BookRepository;
 import com.demo.rest.user.repository.api.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.NotFoundException;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -26,15 +27,34 @@ public class BookService {
         this.userRepository = userRepository;
     }
 
-    public Optional<Book> find(UUID id) { return bookRepository.find(id);}
+    public Optional<Book> find(UUID id) {
+        return bookRepository.find(id);
+    }
 
-    public List<Book> findAll() { return bookRepository.findAll();}
+    public List<Book> findAll() {
+        return bookRepository.findAll();
+    }
 
-    public void create(Book book) { bookRepository.create(book);}
+    public void create(Book book, UUID authorId) {
+        authorRepository.find(authorId).ifPresentOrElse(
+                author -> {
+                    book.setAuthor(author);
+                    bookRepository.create(book);
+                },
+                () -> {
+                    throw new NotFoundException("Author not found");
+                }
+        );
 
-    public void update(Book book) { bookRepository.update(book);}
+    }
 
-    public void delete(UUID id) {bookRepository.delete(bookRepository.find(id).orElseThrow());}
+    public void update(Book book) {
+        bookRepository.update(book);
+    }
+
+    public void delete(UUID id) {
+        bookRepository.delete(bookRepository.find(id).orElseThrow());
+    }
 
     public Optional<List<Book>> findAllByAuthor(UUID id) {
         return authorRepository.find(id)

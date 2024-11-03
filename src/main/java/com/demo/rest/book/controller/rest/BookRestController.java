@@ -69,18 +69,20 @@ public class BookRestController implements BookController {
     }
 
     @Override
-    public void putBook(UUID id, PutBookRequest request) {
+    public void putBook(UUID authorId, UUID bookId, PutBookRequest request) {
         try {
-            service.create(factory.requestToBook().apply(id, request));
+            service.create(factory.requestToBook().apply(bookId, request), authorId);
 
             response.setHeader("Location", uriInfo.getBaseUriBuilder()
                     .path(AuthorController.class, "getBook")
-                    .build(id)
+                    .build(bookId)
                     .toString());
 
             throw new WebApplicationException(Response.Status.CREATED);
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
+        } catch (NotFoundException ex) {
+            throw new NotFoundException("Author not found");
         }
     }
 

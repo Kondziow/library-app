@@ -133,10 +133,10 @@ public class DataInitialization implements ServletContextListener {
                 .user(Kacper)
                 .build();
 
-        bookService.create(LOTR);
-        bookService.create(Metro);
-        bookService.create(Wiedzmin);
-        bookService.create(AtomoweNawyki);
+        bookService.create(LOTR, Tolkien.getId());
+        bookService.create(Metro, Glukhovsky.getId());
+        bookService.create(Wiedzmin, Sapkowski.getId());
+        bookService.create(AtomoweNawyki, Clear.getId());
 
         requestContextController.deactivate();
     }
