@@ -30,7 +30,7 @@ public class UpdateBookWithModelFunction implements BiFunction<Book, BookEditMod
                 .releaseDate(convertStringToLocalDate(request.getReleaseDate()))
                 .genre(request.getGenre())
                 .author(Author.builder()
-                        .id(request.getAuthor().getId())
+                        .id(entity.getAuthor().getId())
                         .build())
                 .build();
     }
