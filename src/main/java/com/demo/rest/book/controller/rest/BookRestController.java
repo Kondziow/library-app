@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.UriInfo;
 import java.util.UUID;
 
 @Path("")
-public class BookSimpleController implements BookController {
+public class BookRestController implements BookController {
     private final BookService service;
     private final DtoFunctionFactory factory;
     private final UriInfo uriInfo;
@@ -34,9 +34,9 @@ public class BookSimpleController implements BookController {
     }
 
     @Inject
-    public BookSimpleController(BookService service,
-                                DtoFunctionFactory factory,
-                                @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo) {
+    public BookRestController(BookService service,
+                              DtoFunctionFactory factory,
+                              @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo) {
         this.service = service;
         this.factory = factory;
         this.uriInfo = uriInfo;
