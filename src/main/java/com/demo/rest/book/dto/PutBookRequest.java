@@ -18,6 +18,5 @@ public class PutBookRequest {
     private LocalDate releaseDate;
     private Genre genre;
 
-    private UUID author;
     private UUID user;
 }

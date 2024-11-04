@@ -16,7 +16,6 @@ public class RequestToBookFunction implements BiFunction<UUID, PutBookRequest, B
                 .title(request.getTitle())
                 .releaseDate(request.getReleaseDate())
                 .genre(request.getGenre())
-                .author(Author.builder().id(request.getAuthor()).build())
                 .user(User.builder().id(request.getUser()).build())
                 .build();
     }

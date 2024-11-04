@@ -73,11 +73,6 @@ public class BookRestController implements BookController {
         try {
             service.create(factory.requestToBook().apply(bookId, request), authorId);
 
-            response.setHeader("Location", uriInfo.getBaseUriBuilder()
-                    .path(AuthorController.class, "getBook")
-                    .build(bookId)
-                    .toString());
-
             throw new WebApplicationException(Response.Status.CREATED);
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
