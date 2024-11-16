@@ -1,0 +1,63 @@
+package com.demo.rest.book.repository.persistence;
+
+import com.demo.rest.book.entity.Author;
+import com.demo.rest.book.entity.Book;
+import com.demo.rest.book.repository.api.BookRepository;
+import com.demo.rest.user.entity.User;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@RequestScoped
+public class BookPersistenceRepository implements BookRepository {
+
+    private EntityManager em;
+
+    @PersistenceContext
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
+    @Override
+    public List<Book> findAllByAuthor(Author author) {
+        return em.createQuery("select b from Book b where b.author = :profession", Book.class)
+                .setParameter("profession", author)
+                .getResultList();
+    }
+
+    @Override
+    public List<Book> findAllByUser(User user) {
+        return em.createQuery("select b from Book b where b.user = :user", Book.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
+
+    @Override
+    public List<Book> findAll() {
+        return em.createQuery("select b from Book b", Book.class).getResultList();
+    }
+
+    @Override
+    public Optional<Book> find(UUID id) {
+        return Optional.ofNullable(em.find(Book.class, id));
+    }
+
+    @Override
+    public void create(Book entity) {
+        em.persist(entity);
+    }
+
+    @Override
+    public void update(Book entity) {
+        em.merge(entity);
+    }
+
+    @Override
+    public void delete(Book entity) {
+        em.remove(em.find(Book.class, entity.getId()));
+    }
+}

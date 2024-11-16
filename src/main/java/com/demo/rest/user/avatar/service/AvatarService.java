@@ -1,45 +1,30 @@
 package com.demo.rest.user.avatar.service;
 
-import com.demo.rest.user.avatar.repository.api.AvatarRepository;
-import com.demo.rest.user.repository.api.UserRepository;
+import com.demo.rest.user.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
-import java.util.UUID;
 
 @ApplicationScoped
 @NoArgsConstructor(force = true)
 public class AvatarService {
-    private final UserRepository userRepository;
-    private final AvatarRepository avatarRepository;
-
-    @Inject
-    public AvatarService(UserRepository userRepository, AvatarRepository avatarRepository) {
-        this.userRepository = userRepository;
-        this.avatarRepository = avatarRepository;
+    public byte[] get(User user) {
+        return user.getAvatar();
     }
 
-    public Optional<byte[]> getAvatar(UUID id) {
-        return avatarRepository.getAvatar(id);
+    public void updateAvatar(User user, InputStream is) {
+        try {
+            byte[] avatar = is.readAllBytes();
+
+            user.setAvatar(avatar);
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
     }
 
-    public void updateAvatar(UUID id, InputStream is) {
-        userRepository.find(id).ifPresent(user -> {
-            try {
-                byte[] avatar = is.readAllBytes();
-
-                avatarRepository.updateAvatar(id, avatar);
-            } catch (IOException ex) {
-                throw new IllegalStateException(ex);
-            }
-        });
-    }
-
-    public void deleteAvatar(UUID id) {
-        avatarRepository.deleteAvatar(id);
+    public void deleteAvatar(User user) {
+        user.setAvatar(new byte[0]);
     }
 }

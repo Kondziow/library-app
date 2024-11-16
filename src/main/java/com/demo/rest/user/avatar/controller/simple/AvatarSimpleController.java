@@ -20,16 +20,18 @@ public class AvatarSimpleController implements AvatarController {
         this.userService = userService;
         this.avatarService = avatarService;
     }
+
     @Override
     public byte[] getAvatar(UUID id) {
-        return avatarService.getAvatar(id)
+        return userService.find(id)
+                .map(avatarService::get)
                 .orElseThrow(NotFoundException::new);
     }
 
     @Override
     public void putAvatar(UUID id, InputStream avatar) {
         userService.find(id).ifPresentOrElse(
-                entity -> avatarService.updateAvatar(id, avatar),
+                entity -> avatarService.updateAvatar(entity, avatar),
                 () -> {
                     throw new NotFoundException();
                 });
@@ -37,10 +39,10 @@ public class AvatarSimpleController implements AvatarController {
 
     @Override
     public void deleteAvatar(UUID id) {
-        if (avatarService.getAvatar(id).isPresent()) {
-            avatarService.deleteAvatar(id);
-        } else {
-            throw new NotFoundException("There is no avatar with that id: \"%s\"".formatted(id));
-        }
+        userService.find(id).ifPresentOrElse(
+                entity -> avatarService.deleteAvatar(entity),
+                () -> {
+                    throw new NotFoundException();
+                });
     }
 }

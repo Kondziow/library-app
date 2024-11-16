@@ -4,6 +4,7 @@ import com.demo.rest.user.entity.User;
 import com.demo.rest.user.repository.api.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -21,12 +22,16 @@ public class UserService {
     }
 
     public Optional<User> find(UUID id) { return userRepository.find(id);}
+    public Optional<User> find(String username) { return userRepository.findByUsername(username);}
 
     public List<User> findAll() { return userRepository.findAll();}
 
+    @Transactional
     public void create(User user) { userRepository.create(user);}
 
+    @Transactional
     public void update(User user) { userRepository.update(user);}
 
+    @Transactional
     public void delete(UUID id) {userRepository.delete(userRepository.find(id).orElseThrow());}
 }

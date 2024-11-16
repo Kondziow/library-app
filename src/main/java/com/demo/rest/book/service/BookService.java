@@ -6,6 +6,7 @@ import com.demo.rest.book.repository.api.BookRepository;
 import com.demo.rest.user.repository.api.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import lombok.NoArgsConstructor;
 
@@ -35,23 +36,33 @@ public class BookService {
         return bookRepository.findAll();
     }
 
+    @Transactional
     public void create(Book book, UUID authorId) {
-        authorRepository.find(authorId).ifPresentOrElse(
-                author -> {
-                    book.setAuthor(author);
-                    bookRepository.create(book);
-                },
-                () -> {
-                    throw new NotFoundException("Author not found");
-                }
-        );
+        if (bookRepository.find(book.getId()).isPresent()) {
+            throw new IllegalArgumentException("Character already exists.");
+        }
+        if (authorRepository.find(book.getAuthor().getId()).isEmpty()) {
+            throw new IllegalArgumentException("Profession does not exists.");
+        }
+        bookRepository.create(book);
 
+//        authorRepository.find(authorId).ifPresentOrElse(
+//                author -> {
+//                    book.setAuthor(author);
+//                    bookRepository.create(book);
+//                },
+//                () -> {
+//                    throw new NotFoundException("Author not found");
+//                }
+//        );
     }
 
+    @Transactional
     public void update(Book book) {
         bookRepository.update(book);
     }
 
+    @Transactional
     public void delete(UUID id) {
         bookRepository.delete(bookRepository.find(id).orElseThrow());
     }

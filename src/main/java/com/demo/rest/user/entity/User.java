@@ -1,5 +1,6 @@
 package com.demo.rest.user.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,8 +13,17 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Entity
+@Table(name = "users")
 public class User implements Serializable {
+    @Id
     private UUID id;
     private String username;
     private String emailAddress;
+
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private byte[] avatar;
 }

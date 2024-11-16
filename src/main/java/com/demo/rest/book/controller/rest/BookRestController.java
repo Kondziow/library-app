@@ -1,6 +1,5 @@
 package com.demo.rest.book.controller.rest;
 
-import com.demo.rest.book.controller.api.AuthorController;
 import com.demo.rest.book.controller.api.BookController;
 import com.demo.rest.book.dto.GetBookResponse;
 import com.demo.rest.book.dto.GetBooksResponse;
@@ -10,6 +9,7 @@ import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.DtoFunctionFactory;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.TransactionalException;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
@@ -17,10 +17,13 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import lombok.extern.java.Log;
 
 import java.util.UUID;
+import java.util.logging.Level;
 
 @Path("")
+@Log
 public class BookRestController implements BookController {
     private final BookService service;
     private final DtoFunctionFactory factory;
@@ -78,6 +81,12 @@ public class BookRestController implements BookController {
             throw new BadRequestException(ex);
         } catch (NotFoundException ex) {
             throw new NotFoundException("Author not found");
+        } catch (TransactionalException ex) {
+            if (ex.getCause() instanceof IllegalArgumentException) {
+                log.log(Level.WARNING, ex.getMessage(), ex);
+                throw new BadRequestException(ex);
+            }
+            throw ex;
         }
     }
 
