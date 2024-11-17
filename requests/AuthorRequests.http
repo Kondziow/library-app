@@ -1,11 +1,8 @@
 ### Get all authors
 GET http://localhost:9080/library-app/api/authors
 
-### Get author not exist
-GET http://localhost:9080/library-app/api/authors/82a84717-c36c-42c1-b69c-c63546d4449c
-
-### Get existing author
-GET http://localhost:9080/library-app/api/authors/24a84717-c36c-42c1-b69c-c63546d4449d
+### Get not/existing author
+GET http://localhost:9080/library-app/api/authors/04784e3f-0998-4349-9a69-fc3862095f8c
 
 ### Put new author
 PUT http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
@@ -29,4 +26,4 @@ Content-Type: application/json
 }
 
 ### Delete author
-DELETE http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+DELETE http://localhost:9080/library-app/api/authors/782e9182-ae8f-4394-917d-892593fc6547

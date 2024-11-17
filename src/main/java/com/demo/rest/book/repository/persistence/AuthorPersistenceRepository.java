@@ -1,6 +1,7 @@
 package com.demo.rest.book.repository.persistence;
 
 import com.demo.rest.book.entity.Author;
+import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.repository.api.AuthorRepository;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
@@ -36,11 +37,14 @@ public class AuthorPersistenceRepository implements AuthorRepository {
 
     @Override
     public void update(Author entity) {
-        em.remove(em.find(Author.class, entity.getId()));
+        em.merge(entity);
     }
 
     @Override
     public void delete(Author entity) {
-        em.merge(entity);
+        for (Book book : entity.getBooks()) {
+            em.remove(em.find(Book.class, book.getId()));
+        }
+        em.remove(em.find(Author.class, entity.getId()));
     }
 }

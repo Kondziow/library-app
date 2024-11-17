@@ -1,5 +1,6 @@
 package com.demo.rest.book.service;
 
+import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.repository.api.AuthorRepository;
 import com.demo.rest.book.repository.api.BookRepository;
@@ -38,12 +39,21 @@ public class BookService {
 
     @Transactional
     public void create(Book book, UUID authorId) {
+        System.out.println("W create");
         if (bookRepository.find(book.getId()).isPresent()) {
+            System.out.println("1");
             throw new IllegalArgumentException("Character already exists.");
         }
-        if (authorRepository.find(book.getAuthor().getId()).isEmpty()) {
+        Optional<Author> author = authorRepository.find(authorId);
+        if (author.isEmpty()) {
+            System.out.println("2");
             throw new IllegalArgumentException("Profession does not exists.");
         }
+        System.out.println("book");
+        System.out.println(book);
+        book.setAuthor(author.get());
+//        book.setAuthor(Author.builder().id(authorId).build());
+        System.out.println(book);
         bookRepository.create(book);
 
 //        authorRepository.find(authorId).ifPresentOrElse(

@@ -22,6 +22,7 @@ public class UserPersistenceRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
+        System.out.println("W user repo");
         return em.createQuery("select u from User u", User.class).getResultList();
     }
 

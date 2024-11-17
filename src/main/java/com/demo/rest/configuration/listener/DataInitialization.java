@@ -39,9 +39,6 @@ public class DataInitialization implements ServletContextListener {
     private void init() {
         try {
             requestContextController.activate();
-            System.out.println("W data initialization---------------------------------");
-            System.out.println(userService.find("Janek").isEmpty());
-            System.out.println(userService.find("Janek"));
             if (userService.find("Janek").isEmpty()) {
                 Author Tolkien = Author.builder()
                         .id(UUID.randomUUID())
@@ -52,7 +49,7 @@ public class DataInitialization implements ServletContextListener {
                 Author Glukhovsky = Author.builder()
                         .id(UUID.randomUUID())
                         .name("Dmitry Glukhovsky")
-                        .nationality("British")
+                        .nationality("Russian")
                         .build();
 
                 Author Sapkowski = Author.builder()

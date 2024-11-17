@@ -11,10 +11,13 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Path;
+import lombok.extern.java.Log;
 
 import java.util.UUID;
 
-@RequestScoped
+@Path("")
+@Log
 public class UserSimpleController implements UserController {
     private final UserService service;
     private final DtoFunctionFactory factory;
@@ -27,6 +30,7 @@ public class UserSimpleController implements UserController {
 
     @Override
     public GetUsersResponse getUsers() {
+        System.out.println("W user controller");
         return factory.usersToResponse().apply(service.findAll());
     }
 

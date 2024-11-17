@@ -1,21 +1,18 @@
 ### Get all books
 GET http://localhost:9080/library-app/api/books
 
-### Get book not exist
-GET http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3e
-
-### Get existing book
-GET http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3f
+### Get not/existing book
+GET http://localhost:9080/library-app/api/books/9e36227a-421a-4889-9597-585087753111
 
 ### Put new book
-PUT http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+PUT http://localhost:9080/library-app/api/authors/04784e3f-0998-4349-9a69-fc3862095f8c/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
 Content-Type: application/json
 
 {
   "title": "A book",
   "releaseDate": "2020-10-11",
   "genre": "FANTASY",
-  "user": "80ed5ffb-a67a-4253-910c-a64134a01ccf"
+  "user": "d402856e-429a-4e30-9e00-6ee1224a12e6"
 }
 
 ### Get new book
@@ -37,10 +34,10 @@ DELETE http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e
 
 
 ### Get Books by Author
-GET http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3/books
+GET http://localhost:9080/library-app/api/authors/782e9182-ae8f-4394-917d-892593fc6547/books
 
 ### Patch atomic habits
-PATCH http://localhost:9080/library-app/api/books/7863889b-51ec-49d8-b7ea-2beff3724c3f
+PATCH http://localhost:9080/library-app/api/books/9e36227a-421a-4889-9597-585087753111
 Content-Type: application/json
 
 {
