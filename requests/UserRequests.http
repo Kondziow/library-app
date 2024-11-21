@@ -10,7 +10,8 @@ Content-Type: application/json
 
 {
   "username": "Konrad",
-  "emailAddress": "Konrad@gmail.com"
+  "emailAddress": "Konrad@gmail.com",
+  "password": "password"
 }
 
 ### Get new user
@@ -29,10 +30,10 @@ Content-Type: application/json
 DELETE http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
 
 ### Get existing user avatar
-GET http://localhost:9080/library-app/api/users/d402856e-429a-4e30-9e00-6ee1224a12e6/avatar
+GET http://localhost:9080/library-app/api/users/013828b3-1793-4ca1-817e-d1f1e25140f0/avatar
 
 ### Put Kacper avatar
-PUT http://localhost:9080/library-app/api/users/d402856e-429a-4e30-9e00-6ee1224a12e6/avatar
+PUT http://localhost:9080/library-app/api/users/013828b3-1793-4ca1-817e-d1f1e25140f0/avatar
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary

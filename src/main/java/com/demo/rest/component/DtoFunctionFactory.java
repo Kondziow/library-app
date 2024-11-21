@@ -1,10 +1,7 @@
 package com.demo.rest.component;
 
 import com.demo.rest.book.dto.function.*;
-import com.demo.rest.user.dto.function.RequestToUserFunction;
-import com.demo.rest.user.dto.function.UpdateUserWithRequestFunction;
-import com.demo.rest.user.dto.function.UserToResponseFunction;
-import com.demo.rest.user.dto.function.UsersToResponseFunction;
+import com.demo.rest.user.dto.function.*;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -35,4 +32,5 @@ public class DtoFunctionFactory {
     }
     public RequestToUserFunction requestToUser() {return new RequestToUserFunction();}
     public UpdateUserWithRequestFunction updateUser() {return new UpdateUserWithRequestFunction();}
+    public UpdateUserPasswordWithRequestFunction updatePassword() {return new UpdateUserPasswordWithRequestFunction();}
 }

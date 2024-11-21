@@ -21,6 +21,9 @@ public class User implements Serializable {
     private String username;
     private String emailAddress;
 
+    @ToString.Exclude
+    private String password;
+
     @Lob
     @Basic(fetch = FetchType.EAGER)
     @ToString.Exclude

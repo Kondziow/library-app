@@ -15,6 +15,8 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
 import lombok.extern.java.Log;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.UUID;
 
 @Path("")
@@ -52,6 +54,8 @@ public class UserSimpleController implements UserController {
             service.create(factory.requestToUser().apply(id, request));
         } catch (IllegalArgumentException ex) {
             throw new BadRequestException(ex);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 

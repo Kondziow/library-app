@@ -16,6 +16,8 @@ import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextListener;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -80,30 +82,38 @@ public class DataInitialization implements ServletContextListener {
                     .id(UUID.randomUUID())
                     .username("Janek")
                     .emailAddress("janek@gmail.com")
+                    .password("janekPassword")
                     .build();
 
             User Oskar = User.builder()
                     .id(UUID.randomUUID())
                     .username("Oskar")
                     .emailAddress("oskar@gmail.com")
+                    .password("oskarPassword")
                     .build();
 
             User Michal = User.builder()
                     .id(UUID.randomUUID())
                     .username("Michal")
                     .emailAddress("Michal@gmail.com")
+                    .password("michalPassword")
                     .build();
 
             User Kacper = User.builder()
                     .id(UUID.randomUUID())
                     .username("Kacper")
                     .emailAddress("kacper@gmail.com")
+                    .password("kacperPassword")
                     .build();
 
-            userService.create(Janek);
-            userService.create(Oskar);
-            userService.create(Michal);
-            userService.create(Kacper);
+            try {
+                userService.create(Janek);
+                userService.create(Oskar);
+                userService.create(Michal);
+                userService.create(Kacper);
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                throw new RuntimeException(e);
+            }
 
             Book LOTR = Book.builder()
                     .id(UUID.randomUUID())
