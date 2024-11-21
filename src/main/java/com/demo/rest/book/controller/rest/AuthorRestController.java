@@ -7,6 +7,7 @@ import com.demo.rest.book.dto.PatchAuthorRequest;
 import com.demo.rest.book.dto.PutAuthorRequest;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.component.DtoFunctionFactory;
+import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.ws.rs.BadRequestException;
@@ -21,7 +22,7 @@ import java.util.UUID;
 
 @Path("")
 public class AuthorRestController implements AuthorController {
-    private final AuthorService service;
+    private AuthorService service;
     private final DtoFunctionFactory factory;
     private final UriInfo uriInfo;
 
@@ -33,12 +34,15 @@ public class AuthorRestController implements AuthorController {
     }
 
     @Inject
-    public AuthorRestController(AuthorService service,
-                                DtoFunctionFactory factory,
+    public AuthorRestController(DtoFunctionFactory factory,
                                 @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo) {
-        this.service = service;
         this.factory = factory;
         this.uriInfo = uriInfo;
+    }
+
+    @EJB
+    private void setService(AuthorService service) {
+        this.service = service;
     }
 
     @Override

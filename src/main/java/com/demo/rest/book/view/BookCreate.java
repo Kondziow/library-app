@@ -5,6 +5,7 @@ import com.demo.rest.book.model.BookCreateModel;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.ModelFunctionFactory;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.Conversation;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.inject.Inject;
@@ -22,8 +23,8 @@ import java.util.stream.Collectors;
 @Named
 @Log
 public class BookCreate implements Serializable {
-    private final BookService bookService;
-    private final AuthorService authorService;
+    private BookService bookService;
+    private AuthorService authorService;
     private final ModelFunctionFactory factory;
     private final Conversation conversation;
 
@@ -38,11 +39,19 @@ public class BookCreate implements Serializable {
     private List<AuthorModel> authors;
 
     @Inject
-    public BookCreate(BookService bookService, AuthorService authorService, ModelFunctionFactory factory, Conversation conversation) {
-        this.bookService = bookService;
-        this.authorService = authorService;
+    public BookCreate(ModelFunctionFactory factory, Conversation conversation) {
         this.factory = factory;
         this.conversation = conversation;
+    }
+
+    @EJB
+    private void setBookService(BookService service) {
+        this.bookService = service;
+    }
+
+    @EJB
+    private void setAuthorService(AuthorService service) {
+        this.authorService = service;
     }
 
     public void init() {

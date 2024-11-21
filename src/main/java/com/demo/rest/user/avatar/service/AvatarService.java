@@ -1,13 +1,16 @@
 package com.demo.rest.user.avatar.service;
 
 import com.demo.rest.user.entity.User;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-@ApplicationScoped
+@LocalBean
+@Stateless
 @NoArgsConstructor(force = true)
 public class AvatarService {
     public byte[] get(User user) {

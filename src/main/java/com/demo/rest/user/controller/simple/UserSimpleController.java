@@ -7,6 +7,7 @@ import com.demo.rest.user.dto.GetUsersResponse;
 import com.demo.rest.user.dto.PatchUserRequest;
 import com.demo.rest.user.dto.PutUserRequest;
 import com.demo.rest.user.service.UserService;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
@@ -19,13 +20,17 @@ import java.util.UUID;
 @Path("")
 @Log
 public class UserSimpleController implements UserController {
-    private final UserService service;
+    private UserService service;
     private final DtoFunctionFactory factory;
 
     @Inject
-    public UserSimpleController(UserService service, DtoFunctionFactory factory) {
-        this.service = service;
+    public UserSimpleController(DtoFunctionFactory factory) {
         this.factory = factory;
+    }
+
+    @EJB
+    private void setService(UserService service) {
+        this.service = service;
     }
 
     @Override

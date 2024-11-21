@@ -2,6 +2,8 @@ package com.demo.rest.book.service;
 
 import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.repository.api.AuthorRepository;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -12,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@ApplicationScoped
+@LocalBean
+@Stateless
 @NoArgsConstructor(force = true)
 @Log
 public class AuthorService {
@@ -27,12 +30,9 @@ public class AuthorService {
 
     public List<Author> findAll() { return authorRepository.findAll();}
 
-    @Transactional
     public void create(Author author) { authorRepository.create(author);}
 
-    @Transactional
     public void update(Author author) { authorRepository.update(author);}
 
-    @Transactional
     public void delete(UUID id) {authorRepository.delete(authorRepository.find(id).orElseThrow());}
 }

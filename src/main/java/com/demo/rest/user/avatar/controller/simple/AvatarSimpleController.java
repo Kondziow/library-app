@@ -3,6 +3,7 @@ package com.demo.rest.user.avatar.controller.simple;
 import com.demo.rest.user.avatar.controller.api.AvatarController;
 import com.demo.rest.user.avatar.service.AvatarService;
 import com.demo.rest.user.service.UserService;
+import jakarta.ejb.EJB;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
@@ -15,13 +16,17 @@ import java.util.UUID;
 @Path("")
 @Log
 public class AvatarSimpleController implements AvatarController {
-    private final UserService userService;
-    private final AvatarService avatarService;
+    private UserService userService;
+    private AvatarService avatarService;
 
-    @Inject
-    public AvatarSimpleController(UserService userService, AvatarService avatarService) {
-        this.userService = userService;
-        this.avatarService = avatarService;
+    @EJB
+    private void setUserService(UserService service) {
+        this.userService = service;
+    }
+
+    @EJB
+    private void setAvatarService(AvatarService service) {
+        this.avatarService = service;
     }
 
     @Override

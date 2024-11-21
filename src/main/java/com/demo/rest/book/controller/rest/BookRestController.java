@@ -7,6 +7,7 @@ import com.demo.rest.book.dto.PatchBookRequest;
 import com.demo.rest.book.dto.PutBookRequest;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.DtoFunctionFactory;
+import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.TransactionalException;
@@ -25,7 +26,7 @@ import java.util.logging.Level;
 @Path("")
 @Log
 public class BookRestController implements BookController {
-    private final BookService service;
+    private BookService service;
     private final DtoFunctionFactory factory;
     private final UriInfo uriInfo;
 
@@ -37,12 +38,15 @@ public class BookRestController implements BookController {
     }
 
     @Inject
-    public BookRestController(BookService service,
-                              DtoFunctionFactory factory,
+    public BookRestController(DtoFunctionFactory factory,
                               @SuppressWarnings("CdiInjectionPointsInspection") UriInfo uriInfo) {
-        this.service = service;
         this.factory = factory;
         this.uriInfo = uriInfo;
+    }
+
+    @EJB
+    public void setService(BookService service) {
+        this.service = service;
     }
 
     @Override

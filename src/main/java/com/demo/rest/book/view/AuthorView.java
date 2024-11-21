@@ -6,6 +6,7 @@ import com.demo.rest.book.model.BooksModel;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.ModelFunctionFactory;
+import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -22,8 +23,8 @@ import java.util.UUID;
 @ViewScoped
 @Named
 public class AuthorView implements Serializable {
-    private final AuthorService authorService;
-    private final BookService bookService;
+    private AuthorService authorService;
+    private BookService bookService;
     private final ModelFunctionFactory factory;
 
     @Getter
@@ -37,10 +38,18 @@ public class AuthorView implements Serializable {
     private BooksModel books;
 
     @Inject
-    public AuthorView(AuthorService authorService, BookService bookService, ModelFunctionFactory factory) {
-        this.authorService = authorService;
-        this.bookService = bookService;
+    public AuthorView(ModelFunctionFactory factory) {
         this.factory = factory;
+    }
+
+    @EJB
+    private void setBookService(BookService service) {
+        this.bookService = service;
+    }
+
+    @EJB
+    private void setAuthorService(AuthorService service) {
+        this.authorService = service;
     }
 
     public void init() throws IOException {

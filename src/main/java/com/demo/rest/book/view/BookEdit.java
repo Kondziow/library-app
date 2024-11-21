@@ -6,6 +6,7 @@ import com.demo.rest.book.model.BookEditModel;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.ModelFunctionFactory;
+import jakarta.ejb.EJB;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -24,8 +25,8 @@ import java.util.stream.Collectors;
 @ViewScoped
 @Named
 public class BookEdit implements Serializable {
-    private final BookService service;
-    private final AuthorService authorService;
+    private BookService bookService;
+    private AuthorService authorService;
     private final ModelFunctionFactory factory;
 
     @Setter
@@ -39,14 +40,22 @@ public class BookEdit implements Serializable {
     private List<AuthorModel> authors;
 
     @Inject
-    public BookEdit(BookService service, AuthorService authorService, ModelFunctionFactory factory) {
-        this.service = service;
-        this.authorService = authorService;
+    public BookEdit(ModelFunctionFactory factory) {
         this.factory = factory;
     }
 
+    @EJB
+    private void setBookService(BookService service) {
+        this.bookService = service;
+    }
+
+    @EJB
+    private void setAuthorService(AuthorService service) {
+        this.authorService = service;
+    }
+
     public void init() throws IOException {
-        Optional<Book> book = service.find(id);
+        Optional<Book> book = bookService.find(id);
         if (book.isPresent()) {
             authors = authorService.findAll().stream()
                     .map(factory.authorToModel())
@@ -59,7 +68,7 @@ public class BookEdit implements Serializable {
 
     public String saveAction() {
         System.out.println(book);
-        service.update(factory.updateBook().apply(service.find(id).orElseThrow(), book));
+        bookService.update(factory.updateBook().apply(bookService.find(id).orElseThrow(), book));
         return "/book/book_list.xhtml?faces-redirect=true";
     }
 }

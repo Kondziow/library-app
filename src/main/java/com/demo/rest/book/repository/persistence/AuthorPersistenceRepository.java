@@ -3,7 +3,7 @@ package com.demo.rest.book.repository.persistence;
 import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.repository.api.AuthorRepository;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class AuthorPersistenceRepository implements AuthorRepository {
     private EntityManager em;
 

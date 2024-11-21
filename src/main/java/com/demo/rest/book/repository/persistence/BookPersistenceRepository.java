@@ -4,7 +4,7 @@ import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.repository.api.BookRepository;
 import com.demo.rest.user.entity.User;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RequestScoped
+@Dependent
 public class BookPersistenceRepository implements BookRepository {
 
     private EntityManager em;

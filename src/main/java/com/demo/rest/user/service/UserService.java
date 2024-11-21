@@ -2,6 +2,8 @@ package com.demo.rest.user.service;
 
 import com.demo.rest.user.entity.User;
 import com.demo.rest.user.repository.api.UserRepository;
+import jakarta.ejb.LocalBean;
+import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -11,7 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@ApplicationScoped
+@LocalBean
+@Stateless
 @NoArgsConstructor(force = true)
 public class UserService {
     private final UserRepository userRepository;
@@ -26,12 +29,9 @@ public class UserService {
 
     public List<User> findAll() { return userRepository.findAll();}
 
-    @Transactional
     public void create(User user) { userRepository.create(user);}
 
-    @Transactional
     public void update(User user) { userRepository.update(user);}
 
-    @Transactional
     public void delete(UUID id) {userRepository.delete(userRepository.find(id).orElseThrow());}
 }

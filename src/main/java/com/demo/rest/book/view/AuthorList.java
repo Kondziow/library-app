@@ -4,6 +4,7 @@ import com.demo.rest.book.model.AuthorsModel;
 import com.demo.rest.book.model.BooksModel;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.component.ModelFunctionFactory;
+import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -13,15 +14,19 @@ import java.io.Serializable;
 @ViewScoped
 @Named
 public class AuthorList implements Serializable {
-    private final AuthorService service;
+    private AuthorService service;
     private final ModelFunctionFactory factory;
 
     private AuthorsModel authors;
 
     @Inject
-    public AuthorList(AuthorService service, ModelFunctionFactory factory) {
-        this.service = service;
+    public AuthorList(ModelFunctionFactory factory) {
         this.factory = factory;
+    }
+
+    @EJB
+    private void setService(AuthorService service) {
+        this.service = service;
     }
 
     public AuthorsModel getAuthors() {
