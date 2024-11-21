@@ -26,4 +26,4 @@ Content-Type: application/json
 }
 
 ### Delete author
-DELETE http://localhost:9080/library-app/api/authors/782e9182-ae8f-4394-917d-892593fc6547
+DELETE http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3

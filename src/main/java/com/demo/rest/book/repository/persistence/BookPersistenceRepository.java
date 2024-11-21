@@ -24,9 +24,7 @@ public class BookPersistenceRepository implements BookRepository {
 
     @Override
     public List<Book> findAllByAuthor(Author author) {
-        return em.createQuery("select b from Book b where b.author = :profession", Book.class)
-                .setParameter("profession", author)
-                .getResultList();
+        return author.getBooks();
     }
 
     @Override
@@ -49,6 +47,7 @@ public class BookPersistenceRepository implements BookRepository {
     @Override
     public void create(Book entity) {
         em.persist(entity);
+        em.refresh(em.find(Author.class, entity.getAuthor().getId()));
     }
 
     @Override
