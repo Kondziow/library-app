@@ -2,6 +2,9 @@ package com.demo.rest.book.service;
 
 import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.repository.api.AuthorRepository;
+import com.demo.rest.user.entity.UserRoles;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -28,11 +31,14 @@ public class AuthorService {
 
     public Optional<Author> find(UUID id) { return authorRepository.find(id);}
 
+    @PermitAll
     public List<Author> findAll() { return authorRepository.findAll();}
 
+    @RolesAllowed(UserRoles.ADMIN)
     public void create(Author author) { authorRepository.create(author);}
 
     public void update(Author author) { authorRepository.update(author);}
 
+    @RolesAllowed(UserRoles.ADMIN)
     public void delete(UUID id) {authorRepository.delete(authorRepository.find(id).orElseThrow());}
 }

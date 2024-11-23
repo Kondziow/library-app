@@ -6,23 +6,22 @@
                 template="/WEB-INF/template/main.xhtml">
 
     <ui:define name="content">
-        <h:outputStylesheet library="book" name="css/book_list.css"/><!-- Automatically relocated to head. -->
-
         <article class="text--justified">
-            <header><h2>Books</h2></header>
+            <header><h2>Users</h2></header>
 
-            <h:dataTable id="bookTable" value="#{bookList.books.books}" var="book"
+            <h:dataTable value="#{userList.users.users}" var="user"
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
                 <h:column>
-                    <f:facet name="header">Title</f:facet>
-                    <h:outputText value="#{book.title}"/>
+                    <f:facet name="header">Login</f:facet>
+                    <h:outputText value="#{user.login}"/>
                 </h:column>
 
                 <h:column>
-                    <f:facet name="header">View</f:facet>
-                    <h:link outcome="/book/book_view.xhtml" value="View">
-                        <f:param name="id" value="#{book.id}"/>
-                    </h:link>
+                    <f:facet name="header">Delete</f:facet>
+                    <h:form>
+                        <h:commandButton styleClass="btn" value="Delete"
+                                         action="#{userList.deleteAction(user)}"/>
+                    </h:form>
                 </h:column>
             </h:dataTable>
         </article>

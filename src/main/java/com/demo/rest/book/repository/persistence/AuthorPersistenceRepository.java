@@ -15,7 +15,7 @@ import java.util.UUID;
 public class AuthorPersistenceRepository implements AuthorRepository {
     private EntityManager em;
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "charactersPu")
     public void setEm(EntityManager em) {
         this.em = em;
     }

@@ -1,6 +1,8 @@
 package com.demo.rest.component;
 
 import com.demo.rest.book.model.function.*;
+import com.demo.rest.user.model.function.UserToModelFunction;
+import com.demo.rest.user.model.function.UsersToModelFunction;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -13,6 +15,8 @@ public class ModelFunctionFactory {
     public BookToModelFunction bookToModel() {return new BookToModelFunction();}
     public BooksToModelFunction booksToModel() {return new BooksToModelFunction();}
     public ModelToBookFunction modelToBook() {return new ModelToBookFunction();}
-    public BookToEditModelFunction bookToEditModel() {return new BookToEditModelFunction();}
+    public BookToEditModelFunction bookToEditModel() {return new BookToEditModelFunction(userToModel());}
     public UpdateBookWithModelFunction updateBook() {return new UpdateBookWithModelFunction();}
+    public UsersToModelFunction usersToModel() {return new UsersToModelFunction();}
+    public UserToModelFunction userToModel() {return new UserToModelFunction();}
 }

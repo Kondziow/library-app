@@ -55,7 +55,7 @@ public class BookEdit implements Serializable {
     }
 
     public void init() throws IOException {
-        Optional<Book> book = bookService.find(id);
+        Optional<Book> book = bookService.findForCallerPrincipal(id);
         if (book.isPresent()) {
             authors = authorService.findAll().stream()
                     .map(factory.authorToModel())

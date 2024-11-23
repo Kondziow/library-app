@@ -4,13 +4,14 @@ import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.repository.api.AuthorRepository;
 import com.demo.rest.book.repository.api.BookRepository;
+import com.demo.rest.user.entity.User;
+import com.demo.rest.user.entity.UserRoles;
 import com.demo.rest.user.repository.api.UserRepository;
-import jakarta.ejb.LocalBean;
-import jakarta.ejb.Stateless;
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.annotation.Resource;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.*;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.ws.rs.NotFoundException;
+import jakarta.security.enterprise.SecurityContext;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
@@ -24,55 +25,129 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final UserRepository userRepository;
+    private final SecurityContext securityContext;
+    private TimerService timerService;
+    private SessionContext context;
+
+    @Resource
+    public void setTimerService(TimerService timerService) {
+        this.timerService = timerService;
+    }
+
+    @Resource
+    public void setContext(SessionContext context) {
+        this.context = context;
+    }
 
     @Inject
-    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, UserRepository userRepository) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, UserRepository userRepository, SecurityContext securityContext) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.userRepository = userRepository;
+        this.securityContext = securityContext;
     }
 
+    @RolesAllowed(UserRoles.USER)
     public Optional<Book> find(UUID id) {
         return bookRepository.find(id);
     }
 
+    @RolesAllowed(UserRoles.USER)
+    public Optional<Book> find(User user, UUID id) {
+        return bookRepository.findByIdAndUser(id, user);
+    }
+
+    @RolesAllowed(UserRoles.USER)
+    public Optional<Book> findForCallerPrincipal(UUID id) {
+        if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
+            return find(id);
+        }
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(IllegalStateException::new);
+        return find(user, id);
+    }
+
+    @RolesAllowed(UserRoles.USER)
     public List<Book> findAll() {
         return bookRepository.findAll();
     }
 
+    @RolesAllowed(UserRoles.USER)
+    public List<Book> findAll(User user) {
+        return bookRepository.findAllByUser(user);
+    }
+
+    @RolesAllowed(UserRoles.USER)
+    public List<Book> findAllForCallerPrincipal() {
+        if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
+            return findAll();
+        }
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(IllegalStateException::new);
+        return findAll(user);
+    }
+
+    @RolesAllowed(UserRoles.USER)
     public void create(Book book, UUID authorId) {
-        System.out.println("W create");
         if (bookRepository.find(book.getId()).isPresent()) {
-            System.out.println("1");
             throw new IllegalArgumentException("Character already exists.");
         }
         Optional<Author> author = authorRepository.find(authorId);
         if (author.isEmpty()) {
-            System.out.println("2");
             throw new IllegalArgumentException("Profession does not exists.");
         }
-        System.out.println("book");
-        System.out.println(book);
         book.setAuthor(author.get());
-        System.out.println(book);
         bookRepository.create(book);
     }
 
+    @RolesAllowed(UserRoles.USER)
+    public void createForCallerPrincipal(Book book, UUID authorId) {
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(IllegalStateException::new);
+
+        book.setUser(user);
+        create(book, authorId);
+    }
+
+    @RolesAllowed(UserRoles.USER)
     public void update(Book book) {
         bookRepository.update(book);
     }
 
+    @RolesAllowed(UserRoles.USER)
     public void delete(UUID id) {
         bookRepository.delete(bookRepository.find(id).orElseThrow());
     }
 
+    @RolesAllowed(UserRoles.USER)
     public Optional<List<Book>> findAllByAuthor(UUID id) {
         return authorRepository.find(id)
                 .map(bookRepository::findAllByAuthor);
     }
 
+    @RolesAllowed(UserRoles.USER)
     public Optional<List<Book>> findAllByUser(UUID id) {
         return userRepository.find(id)
                 .map(bookRepository::findAllByUser);
+    }
+
+    @RolesAllowed(UserRoles.USER)
+    public void cancelDelete(UUID id) {
+        checkAdminRoleOrOwner(bookRepository.find(id));
+        timerService.getTimers().stream()
+                .filter(timer -> timer.getInfo().equals(id))
+                .forEach(Timer::cancel);
+    }
+
+    private void checkAdminRoleOrOwner(Optional<Book> book) throws EJBAccessException {
+        if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
+            return;
+        }
+        if (securityContext.isCallerInRole(UserRoles.USER)
+                && book.isPresent()
+                && book.get().getUser().getLogin().equals(securityContext.getCallerPrincipal().getName())) {
+            return;
+        }
+        throw new EJBAccessException("Caller not authorized.");
     }
 }

@@ -2,6 +2,7 @@ package com.demo.rest.user.repository.persistence;
 
 import com.demo.rest.user.entity.User;
 import com.demo.rest.user.repository.api.UserRepository;
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class UserPersistenceRepository implements UserRepository {
     private EntityManager em;
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "charactersPu")
     public void setEm(EntityManager em) {
         this.em = em;
     }
@@ -32,6 +33,7 @@ public class UserPersistenceRepository implements UserRepository {
     }
 
     @Override
+    @PermitAll
     public void create(User entity) {
         em.persist(entity);
     }
@@ -51,6 +53,18 @@ public class UserPersistenceRepository implements UserRepository {
         try {
             return Optional.of(em.createQuery("select u from User u where u.username = :username", User.class)
                     .setParameter("username", username)
+                    .getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    @PermitAll
+    public Optional<User> findByLogin(String login) {
+        try {
+            return Optional.of(em.createQuery("select u from User u where u.login = :login", User.class)
+                    .setParameter("login", login)
                     .getSingleResult());
         } catch (NoResultException ex) {
             return Optional.empty();

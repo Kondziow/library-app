@@ -7,14 +7,14 @@ import com.demo.rest.book.dto.PatchBookRequest;
 import com.demo.rest.book.dto.PutBookRequest;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.DtoFunctionFactory;
+import com.demo.rest.user.entity.UserRoles;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
+import jakarta.ejb.EJBAccessException;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.TransactionalException;
-import jakarta.ws.rs.BadRequestException;
-import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
@@ -25,6 +25,7 @@ import java.util.logging.Level;
 
 @Path("")
 @Log
+@RolesAllowed(UserRoles.USER)
 public class BookRestController implements BookController {
     private BookService service;
     private final DtoFunctionFactory factory;
@@ -97,7 +98,14 @@ public class BookRestController implements BookController {
     @Override
     public void updateBook(UUID id, PatchBookRequest request) {
         service.find(id).ifPresentOrElse(
-                entity -> service.update(factory.updateBook().apply(entity, request)),
+                entity -> {
+                    try {
+                        service.update(factory.updateBook().apply(entity, request));
+                    } catch (EJBAccessException ex) {
+                        log.log(Level.WARNING, ex.getMessage(), ex);
+                        throw new ForbiddenException(ex.getMessage());
+                    }
+                },
                 () -> {
                     throw new NotFoundException();
                 }
@@ -107,7 +115,14 @@ public class BookRestController implements BookController {
     @Override
     public void deleteBook(UUID id) {
         service.find(id).ifPresentOrElse(
-                entity -> service.delete(id),
+                entity -> {
+                    try {
+                        service.delete(id);
+                    } catch (EJBAccessException ex) {
+                        log.log(Level.WARNING, ex.getMessage(), ex);
+                        throw new ForbiddenException(ex.getMessage());
+                    }
+                },
                 () -> {
                     throw new NotFoundException();
                 }

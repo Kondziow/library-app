@@ -12,6 +12,7 @@ public class UpdateAuthorWithRequestFunction implements BiFunction<Author, Patch
                 .id(entity.getId())
                 .name(request.getName())
                 .nationality(request.getNationality())
+                .books(entity.getBooks())
                 .build();
     }
 }

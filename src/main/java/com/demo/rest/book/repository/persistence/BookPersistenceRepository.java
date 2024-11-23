@@ -6,6 +6,7 @@ import com.demo.rest.book.repository.api.BookRepository;
 import com.demo.rest.user.entity.User;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class BookPersistenceRepository implements BookRepository {
 
     private EntityManager em;
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "charactersPu")
     public void setEm(EntityManager em) {
         this.em = em;
     }
@@ -58,5 +59,17 @@ public class BookPersistenceRepository implements BookRepository {
     @Override
     public void delete(Book entity) {
         em.remove(em.find(Book.class, entity.getId()));
+    }
+
+    @Override
+    public Optional<Book> findByIdAndUser(UUID id, User user) {
+        try {
+            return Optional.of(em.createQuery("select b from Book b where b.id = :id and b.user = :user", Book.class)
+                    .setParameter("user", user)
+                    .setParameter("id", id)
+                    .getSingleResult());
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 }

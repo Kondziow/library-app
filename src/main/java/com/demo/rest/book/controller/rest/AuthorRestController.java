@@ -7,6 +7,8 @@ import com.demo.rest.book.dto.PatchAuthorRequest;
 import com.demo.rest.book.dto.PutAuthorRequest;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.component.DtoFunctionFactory;
+import com.demo.rest.user.entity.UserRoles;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletResponse;
@@ -83,6 +85,7 @@ public class AuthorRestController implements AuthorController {
         );
     }
 
+    @RolesAllowed(UserRoles.ADMIN)
     @Override
     public void deleteAuthor(UUID id) {
         service.find(id).ifPresentOrElse(

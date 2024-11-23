@@ -12,6 +12,7 @@ public class RequestToUserFunction implements BiFunction<UUID, PutUserRequest, U
         return User.builder()
                 .id(id)
                 .username(request.getUsername())
+                .login(request.getLogin())
                 .emailAddress(request.getEmailAddress())
                 .password(request.getPassword())
                 .build();

@@ -72,7 +72,7 @@ public class BookCreate implements Serializable {
     }
 
     public String saveAction() {
-        bookService.create(factory.modelToBook().apply(book), authorId);
+        bookService.createForCallerPrincipal(factory.modelToBook().apply(book), authorId);
         conversation.end();
         return "/book/book_list.xhtml?faces-redirect=true";
     }
