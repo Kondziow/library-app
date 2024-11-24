@@ -35,7 +35,8 @@ public class UserService {
         return userRepository.find(id);
     }
 
-    @RolesAllowed(UserRoles.ADMIN)
+//    @RolesAllowed(UserRoles.ADMIN)
+    @PermitAll
     public Optional<User> find(String username) {
         return userRepository.findByUsername(username);
     }

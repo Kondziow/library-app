@@ -8,6 +8,7 @@ import com.demo.rest.user.entity.User;
 import com.demo.rest.user.entity.UserRoles;
 import com.demo.rest.user.repository.api.UserRepository;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.*;
 import jakarta.inject.Inject;
@@ -67,7 +68,7 @@ public class BookService {
         return find(user, id);
     }
 
-    @RolesAllowed(UserRoles.USER)
+    @RolesAllowed(UserRoles.ADMIN)
     public List<Book> findAll() {
         return bookRepository.findAll();
     }
@@ -87,7 +88,8 @@ public class BookService {
         return findAll(user);
     }
 
-    @RolesAllowed(UserRoles.USER)
+//    @RolesAllowed(UserRoles.USER)
+    @PermitAll
     public void create(Book book, UUID authorId) {
         if (bookRepository.find(book.getId()).isPresent()) {
             throw new IllegalArgumentException("Character already exists.");
@@ -109,12 +111,14 @@ public class BookService {
         create(book, authorId);
     }
 
-    @RolesAllowed(UserRoles.USER)
+//    @RolesAllowed(UserRoles.ADMIN)
+    @PermitAll
     public void update(Book book) {
         bookRepository.update(book);
     }
 
-    @RolesAllowed(UserRoles.USER)
+//    @RolesAllowed(UserRoles.ADMIN)
+    @PermitAll
     public void delete(UUID id) {
         bookRepository.delete(bookRepository.find(id).orElseThrow());
     }

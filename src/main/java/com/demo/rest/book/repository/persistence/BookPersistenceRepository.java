@@ -18,7 +18,7 @@ public class BookPersistenceRepository implements BookRepository {
 
     private EntityManager em;
 
-    @PersistenceContext(unitName = "charactersPu")
+    @PersistenceContext
     public void setEm(EntityManager em) {
         this.em = em;
     }

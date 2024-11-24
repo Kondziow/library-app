@@ -18,8 +18,8 @@
 <!--        <groupMembershipTable tableName="users__roles" idColumn="id" groupColumn="role" />-->
 <!--    </jdbcRegistry>-->
     <basicRegistry>
-        <user name="adminUser" password="password"/>
-        <role name="admin" user="admin-service"/>
+        <user name="admin-service" password="adminadmin"/>
+        <group name="admin" user="admin-service"/>
     </basicRegistry>
 
     <application-bnd>
@@ -36,6 +36,7 @@
 <!--        <application-bnd>-->
 <!--            <security-role name="admin">-->
 <!--                <group name="admin" access-id="group:jdbc/SimpleRpgCharacters/admin"/>-->
+<!--                <run-as userid="admin-service"/>-->
 <!--            </security-role>-->
 <!--            <security-role name="user">-->
 <!--                <group name="user" access-id="group:jdbc/SimpleRpgCharacters/user"/>-->

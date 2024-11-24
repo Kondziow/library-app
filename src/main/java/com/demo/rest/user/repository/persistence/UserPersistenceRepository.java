@@ -17,7 +17,7 @@ import java.util.UUID;
 public class UserPersistenceRepository implements UserRepository {
     private EntityManager em;
 
-    @PersistenceContext(unitName = "charactersPu")
+    @PersistenceContext
     public void setEm(EntityManager em) {
         this.em = em;
     }

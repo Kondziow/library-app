@@ -29,12 +29,14 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
+    @RolesAllowed(UserRoles.USER)
     public Optional<Author> find(UUID id) { return authorRepository.find(id);}
 
     @PermitAll
     public List<Author> findAll() { return authorRepository.findAll();}
 
-    @RolesAllowed(UserRoles.ADMIN)
+//    @RolesAllowed(UserRoles.ADMIN)
+    @PermitAll
     public void create(Author author) { authorRepository.create(author);}
 
     public void update(Author author) { authorRepository.update(author);}

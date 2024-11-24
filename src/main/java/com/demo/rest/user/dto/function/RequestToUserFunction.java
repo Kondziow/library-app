@@ -2,7 +2,9 @@ package com.demo.rest.user.dto.function;
 
 import com.demo.rest.user.dto.PutUserRequest;
 import com.demo.rest.user.entity.User;
+import com.demo.rest.user.entity.UserRoles;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
@@ -15,6 +17,7 @@ public class RequestToUserFunction implements BiFunction<UUID, PutUserRequest, U
                 .login(request.getLogin())
                 .emailAddress(request.getEmailAddress())
                 .password(request.getPassword())
+                .roles(List.of(UserRoles.USER))
                 .build();
     }
 }

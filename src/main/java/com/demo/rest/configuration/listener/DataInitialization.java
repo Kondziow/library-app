@@ -3,18 +3,22 @@ package com.demo.rest.configuration.listener;
 import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.entity.Genre;
+import com.demo.rest.book.repository.api.AuthorRepository;
+import com.demo.rest.book.repository.api.BookRepository;
 import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.user.entity.User;
 import com.demo.rest.user.entity.UserRoles;
+import com.demo.rest.user.repository.api.UserRepository;
 import com.demo.rest.user.service.UserService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RunAs;
 import jakarta.ejb.*;
-import jakarta.servlet.ServletContextListener;
+import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,14 +27,26 @@ import java.util.UUID;
 @Singleton
 @Startup
 @TransactionAttribute(value = TransactionAttributeType.NOT_SUPPORTED)
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @DependsOn("InitializeAdminService")
 @DeclareRoles({UserRoles.ADMIN, UserRoles.USER})
-@RunAs("admin")
+@RunAs(UserRoles.ADMIN)
+@Log
 public class DataInitialization {
     private AuthorService authorService;
     private BookService bookService;
     private UserService userService;
+
+    private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
+    private final UserRepository userRepository;
+
+    @Inject
+    public DataInitialization(AuthorRepository authorRepository, BookRepository bookRepository, UserRepository userRepository) {
+        this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
+    }
 
     @EJB
     private void setAuthorService(AuthorService service) {
@@ -80,6 +96,11 @@ public class DataInitialization {
             authorService.create(Sapkowski);
             authorService.create(Clear);
 
+//            authorRepository.create(Tolkien);
+//            authorRepository.create(Glukhovsky);
+//            authorRepository.create(Sapkowski);
+//            authorRepository.create(Clear);
+
             User Janek = User.builder()
                     .id(UUID.randomUUID())
                     .username("Janek")
@@ -121,6 +142,10 @@ public class DataInitialization {
             userService.create(Michal);
             userService.create(Kacper);
 
+//            userRepository.create(Janek);
+//            userRepository.create(Oskar);
+//            userRepository.create(Michal);
+//            userRepository.create(Kacper);
 
             Book LOTR = Book.builder()
                     .id(UUID.randomUUID())
@@ -162,6 +187,11 @@ public class DataInitialization {
             bookService.create(Metro, Glukhovsky.getId());
             bookService.create(Wiedzmin, Sapkowski.getId());
             bookService.create(AtomoweNawyki, Clear.getId());
+
+//            bookRepository.create(LOTR);
+//            bookRepository.create(Metro);
+//            bookRepository.create(Wiedzmin);
+//            bookRepository.create(AtomoweNawyki);
         }
 
     }
