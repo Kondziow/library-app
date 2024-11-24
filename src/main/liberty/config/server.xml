@@ -17,32 +17,34 @@
 <!--        <groupTable tableName="users__roles" idColumn="id" groupColumn="role" />-->
 <!--        <groupMembershipTable tableName="users__roles" idColumn="id" groupColumn="role" />-->
 <!--    </jdbcRegistry>-->
-    <basicRegistry>
-        <user name="admin-service" password="adminadmin"/>
-        <group name="admin" user="admin-service"/>
-    </basicRegistry>
 
-    <application-bnd>
-        <security-role name="admin">
-            <group name="admin"/>
-        </security-role>
-        <security-role name="user">
-            <group name="user"/>
-        </security-role>
-    </application-bnd>
+<!--    <basicRegistry>-->
+<!--        <user name="admin-service" password="adminadmin"/>-->
+<!--        <group name="admin" user="admin-service"/>-->
+<!--    </basicRegistry>-->
+
+<!--    <application-bnd>-->
+<!--        <security-role name="admin">-->
+<!--            <group name="admin"/>-->
+<!--            <run-as userid="admin-service"/>-->
+<!--        </security-role>-->
+<!--        <security-role name="user">-->
+<!--            <group name="user"/>-->
+<!--        </security-role>-->
+<!--    </application-bnd>-->
 
 
-<!--    <application type="war" location="simple-rpg-1.0-SNAPSHOT.war">-->
-<!--        <application-bnd>-->
-<!--            <security-role name="admin">-->
-<!--                <group name="admin" access-id="group:jdbc/SimpleRpgCharacters/admin"/>-->
-<!--                <run-as userid="admin-service"/>-->
-<!--            </security-role>-->
-<!--            <security-role name="user">-->
-<!--                <group name="user" access-id="group:jdbc/SimpleRpgCharacters/user"/>-->
-<!--            </security-role>-->
-<!--        </application-bnd>-->
-<!--    </application>-->
+    <application type="war" location="labs1-1.0-SNAPSHOT.war">
+        <application-bnd>
+            <security-role name="admin">
+                <group name="admin" access-id="group:jdbc/SimpleRpgCharacters/admin"/>
+                <run-as userid="admin-service"/>w
+            </security-role>
+            <security-role name="user">
+                <group name="user" access-id="group:jdbc/SimpleRpgCharacters/user"/>
+            </security-role>
+        </application-bnd>
+    </application>
 
     <dataSource id="SimpleRpgCharactersDataSource" jndiName="jdbc/SimpleRpgCharacters">
         <jdbcDriver javax.sql.XADataSource="org.h2.jdbcx.JdbcDataSource"

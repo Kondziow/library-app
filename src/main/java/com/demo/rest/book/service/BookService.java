@@ -117,9 +117,10 @@ public class BookService {
         bookRepository.update(book);
     }
 
-//    @RolesAllowed(UserRoles.ADMIN)
-    @PermitAll
+    @RolesAllowed(UserRoles.USER)
+//    @PermitAll
     public void delete(UUID id) {
+        checkAdminRoleOrOwner(bookRepository.find(id));
         bookRepository.delete(bookRepository.find(id).orElseThrow());
     }
 

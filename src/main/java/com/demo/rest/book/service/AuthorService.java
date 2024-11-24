@@ -35,8 +35,8 @@ public class AuthorService {
     @PermitAll
     public List<Author> findAll() { return authorRepository.findAll();}
 
-//    @RolesAllowed(UserRoles.ADMIN)
-    @PermitAll
+    @RolesAllowed(UserRoles.ADMIN)
+//    @PermitAll
     public void create(Author author) { authorRepository.create(author);}
 
     public void update(Author author) { authorRepository.update(author);}

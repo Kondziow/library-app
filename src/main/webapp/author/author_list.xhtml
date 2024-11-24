@@ -40,10 +40,12 @@
                     </h:form>
                 </h:column>
 
-                <f:facet name="footer">
-                    <h:button styleClass="btn" outcome="/author/author_create.xhtml"
-                              value="Create new author"/>
-                </f:facet>
+                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                    <f:facet name="footer">
+                        <h:button styleClass="btn" outcome="/author/author_create.xhtml"
+                                  value="Create new author"/>
+                    </f:facet>
+                </h:panelGroup>
             </h:dataTable>
         </article>
     </ui:define>

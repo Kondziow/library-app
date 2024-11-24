@@ -26,7 +26,8 @@
                 <h1>Library App</h1>
                 <h:form styleClass="container d-flex  align-items-center justify-content-end"
                         rendered="#{facesContext.externalContext.userPrincipal != null}">
-                    Logged: <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
+                    Logged:
+                    <h:outputText value="#{facesContext.externalContext.userPrincipal.name}"/>
                     <h:commandButton styleClass="btn btn-link" value="Logout"
                                      action="#{userLogout.logoutAction()}"/>
                 </h:form>
@@ -40,16 +41,21 @@
                         </li>
                         <li class="nav-item">
                             <h:link styleClass="nav-link"
-                                    outcome="/author/author_list.xhtml">Author List</h:link>
-                        </li>
-                        <li class="nav-item">
-                            <h:link styleClass="nav-link"
-                                    outcome="/book/book_list.xhtml">Book List</h:link>
+                                    outcome="/author/author_list.xhtml">Author List
+                            </h:link>
                         </li>
                         <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">
                             <li class="nav-item">
                                 <h:link styleClass="nav-link"
-                                        outcome="/user/user_list.xhtml">Users</h:link>
+                                        outcome="/book/book_list.xhtml">Book List
+                                </h:link>
+                            </li>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                            <li class="nav-item">
+                                <h:link styleClass="nav-link"
+                                        outcome="/user/user_list.xhtml">Users
+                                </h:link>
                             </li>
                         </h:panelGroup>
                     </ul>
