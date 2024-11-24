@@ -42,9 +42,9 @@ public class AuthorPersistenceRepository implements AuthorRepository {
 
     @Override
     public void delete(Author entity) {
-        for (Book book : entity.getBooks()) {
-            em.remove(em.find(Book.class, book.getId()));
-        }
+//        for (Book book : entity.getBooks()) {
+//            em.remove(em.find(Book.class, book.getId()));
+//        }
         em.remove(em.find(Author.class, entity.getId()));
     }
 }

@@ -29,7 +29,7 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    @RolesAllowed(UserRoles.USER)
+//    @RolesAllowed(UserRoles.USER)
     public Optional<Author> find(UUID id) { return authorRepository.find(id);}
 
     @PermitAll
@@ -39,6 +39,7 @@ public class AuthorService {
 //    @PermitAll
     public void create(Author author) { authorRepository.create(author);}
 
+    @RolesAllowed(UserRoles.ADMIN)
     public void update(Author author) { authorRepository.update(author);}
 
     @RolesAllowed(UserRoles.ADMIN)

@@ -79,7 +79,7 @@ public class BookRestController implements BookController {
     @Override
     public void putBook(UUID authorId, UUID bookId, PutBookRequest request) {
         try {
-            service.create(factory.requestToBook().apply(bookId, request), authorId);
+            service.createForCallerPrincipal(factory.requestToBook().apply(bookId, request), authorId);
 
             throw new WebApplicationException(Response.Status.CREATED);
         } catch (IllegalArgumentException ex) {

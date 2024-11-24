@@ -68,25 +68,25 @@ public class DataInitialization {
     private void init() {
         if (userService.find("Janek").isEmpty()) {
             Author Tolkien = Author.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("4fb751fb-1a9d-4a51-8982-ce099f2327e9"))
                     .name("J.R.R. Tolkien")
                     .nationality("Briton")
                     .build();
 
             Author Glukhovsky = Author.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("0fd0d367-7be3-4b49-a16c-5d0ef71bb894"))
                     .name("Dmitry Glukhovsky")
                     .nationality("Russian")
                     .build();
 
             Author Sapkowski = Author.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("a072c1b2-7b91-4398-b29d-0daddc9880c4"))
                     .name("Andrzej Sapkowski")
                     .nationality("Pole")
                     .build();
 
             Author Clear = Author.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("f4ae426d-ca47-418a-a48d-7e90c17a4333"))
                     .name("James Clear")
                     .nationality("American")
                     .build();
@@ -102,7 +102,7 @@ public class DataInitialization {
 //            authorRepository.create(Clear);
 
             User Janek = User.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("3b1651b9-392c-43ac-b496-7e8ca7a57fa2"))
                     .username("Janek")
                     .login("Janek")
                     .emailAddress("janek@gmail.com")
@@ -111,7 +111,7 @@ public class DataInitialization {
                     .build();
 
             User Oskar = User.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("9e44a703-5a33-4303-b763-9af76ec8a06c"))
                     .username("Oskar")
                     .login("Oskar")
                     .emailAddress("oskar@gmail.com")
@@ -120,7 +120,7 @@ public class DataInitialization {
                     .build();
 
             User Michal = User.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("95614115-9b20-4ff3-96bf-6e9da6f3ae40"))
                     .username("Michal")
                     .login("Michal")
                     .emailAddress("Michal@gmail.com")
@@ -129,7 +129,7 @@ public class DataInitialization {
                     .build();
 
             User Kacper = User.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("cf8f60ec-cd8c-485e-abd5-16cea3b6cf83"))
                     .username("Kacper")
                     .login("Kacper")
                     .emailAddress("kacper@gmail.com")
@@ -148,7 +148,7 @@ public class DataInitialization {
 //            userRepository.create(Kacper);
 
             Book LOTR = Book.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("ebbcc865-7395-40ba-b2e5-06fc88c082ed"))
                     .title("The Lord of The Rings")
                     .releaseDate(LocalDate.of(2024, 12, 12))
                     .genre(Genre.FANTASY)
@@ -157,7 +157,7 @@ public class DataInitialization {
                     .build();
 
             Book Metro = Book.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("097f70b1-a697-4969-b30d-13b023229b76"))
                     .title("Metro 2033")
                     .releaseDate(LocalDate.of(2024, 12, 12))
                     .genre(Genre.FANTASY)
@@ -166,7 +166,7 @@ public class DataInitialization {
                     .build();
 
             Book Wiedzmin = Book.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("f91ab496-9d45-41c6-bab1-98ae45178b21"))
                     .title("The Withcer")
                     .releaseDate(LocalDate.of(2024, 12, 12))
                     .genre(Genre.FANTASY)
@@ -175,7 +175,7 @@ public class DataInitialization {
                     .build();
 
             Book AtomoweNawyki = Book.builder()
-                    .id(UUID.randomUUID())
+                    .id(UUID.fromString("0047c7c6-e838-4fac-b106-e15396765860"))
                     .title("Atomic habits")
                     .releaseDate(LocalDate.of(2024, 12, 12))
                     .genre(Genre.TUTORIAL)

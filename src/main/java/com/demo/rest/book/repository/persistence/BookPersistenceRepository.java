@@ -49,6 +49,7 @@ public class BookPersistenceRepository implements BookRepository {
     public void create(Book entity) {
         em.persist(entity);
         em.refresh(em.find(Author.class, entity.getAuthor().getId()));
+        em.refresh(em.find(User.class, entity.getUser().getId()));
     }
 
     @Override

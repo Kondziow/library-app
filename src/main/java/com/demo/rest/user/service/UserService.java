@@ -35,8 +35,7 @@ public class UserService {
         return userRepository.find(id);
     }
 
-//    @RolesAllowed(UserRoles.ADMIN)
-    @PermitAll
+    @RolesAllowed(UserRoles.ADMIN)
     public Optional<User> find(String username) {
         return userRepository.findByUsername(username);
     }
@@ -52,6 +51,7 @@ public class UserService {
         userRepository.create(user);
     }
 
+    @RolesAllowed(UserRoles.ADMIN)
     public void update(User user) {
         userRepository.update(user);
     }

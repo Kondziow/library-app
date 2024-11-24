@@ -1,0 +1,162 @@
+//User
+//TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
+//Admin
+//YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+//User and Admin
+//SmFuZWs6amFuZWtQYXNzd29yZA==
+
+//*************************** tylko administrator może dodawać i usuwać kategorie,
+
+### Put new author - admin
+// @no-cookie-jar
+PUT http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+Content-Type: application/json
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+{
+  "name": "Andrzej",
+  "nationality": "Polish"
+}
+
+### Get new author - admin
+// @no-cookie-jar
+GET http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+### Delete new author - admin
+// @no-cookie-jar
+DELETE http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+### Put new author - user (error)
+// @no-cookie-jar
+PUT http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+Content-Type: application/json
+Authorization: Basic TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
+{
+  "name": "Andrzej",
+  "nationality": "Polish"
+}
+
+### Delete new author - user (error)
+// @no-cookie-jar
+DELETE http://localhost:9080/library-app/api/authors/a2b8423d-6073-4e57-acbc-f195e6263bb3
+Authorization: Basic TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
+//*************************** zwykły użytkownik może pobierać wszystkie kategorie,
+
+### Get all authors - user
+// @no-cookie-jar
+GET http://localhost:9080/library-app/api/authors
+Authorization: Basic TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
+//*************************** każdy nowy użytkownik może się zarejestrować,
+
+### Put new user - everyone
+// @no-cookie-jar
+PUT http://localhost:9080/library-app/api/users/a2b8423d-6073-4e57-acbc-f195e6263aa2
+Content-Type: application/json
+
+{
+  "username": "Konrad",
+  "login": "Konrad",
+  "emailAddress": "Konrad@gmail.com",
+  "password": "password"
+}
+
+### Get all users - admin
+// @no-cookie-jar
+GET http://localhost:9080/library-app/api/users
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+//*************************** administrator może pobrać wszystkie elementy,
+
+### Get all books - admin
+// @no-cookie-jar
+GET http://localhost:9080/library-app/api/books
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+//*************************** zwykły użytkownik może pobrać tylko swoje elementy
+
+### Get all books - user
+// @no-cookie-jar
+GET http://localhost:9080/library-app/api/books
+Authorization: Basic TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
+//*************************** administrator może edytować i usuwać wszystkie elementy,
+
+### Put new book - admin
+// @no-cookie-jar
+PUT http://localhost:9080/library-app/api/authors/4fb751fb-1a9d-4a51-8982-ce099f2327e9/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Content-Type: application/json
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+{
+  "title": "A book",
+  "releaseDate": "2020-10-11",
+  "genre": "FANTASY",
+  "user": "6b81934b-1952-4305-afbe-64293673ffe9"
+}
+
+### Get new book - admin
+// @no-cookie-jar
+GET http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+### Patch new book - admin
+// @no-cookie-jar
+PATCH http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Content-Type: application/json
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+{
+  "title": "A nice book",
+  "releaseDate": "2020-10-11",
+  "genre": "FANTASY"
+}
+
+### Delete new author - admin
+// @no-cookie-jar
+DELETE http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Authorization: Basic YWRtaW4tc2VydmljZTphZG1pbmFkbWlu
+
+//*************************** zwykły użytkownik może dodawac elementy oraz edytować i usuwać tylko swoje elementy,
+
+### Put new book - user
+// @no-cookie-jar
+PUT http://localhost:9080/library-app/api/authors/4fb751fb-1a9d-4a51-8982-ce099f2327e9/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Content-Type: application/json
+Authorization: Basic TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
+{
+  "title": "A book",
+  "releaseDate": "2020-10-11",
+  "genre": "FANTASY",
+  "user": "6b81934b-1952-4305-afbe-64293673ffe9"
+}
+
+### Get new book - user
+// @no-cookie-jar
+GET http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Authorization: Basic TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
+### Patch new book - user
+// @no-cookie-jar
+PATCH http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Content-Type: application/json
+Authorization: Basic TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
+{
+  "title": "A nice book",
+  "releaseDate": "2020-10-11",
+  "genre": "FANTASY"
+}
+
+### Delete new author - user
+// @no-cookie-jar
+DELETE http://localhost:9080/library-app/api/books/a2b8423d-6073-4e57-acbc-f195e6263bb0
+Authorization: Basic TWljaGFsOm1pY2hhbFBhc3N3b3Jk
+
