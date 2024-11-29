@@ -60,8 +60,6 @@ public class AuthorView implements Serializable {
         } else {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Author not found");
         }
-        System.out.println("----Author in authorView----");
-        System.out.println(author);
     }
 
     public String deleteBook(BooksModel.Book book) {

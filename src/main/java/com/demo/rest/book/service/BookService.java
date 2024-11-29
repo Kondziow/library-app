@@ -109,16 +109,11 @@ public class BookService {
 
     @RolesAllowed(UserRoles.USER)
     public void createForCallerPrincipal(Book book, UUID authorId) {
-        System.out.println("---------------- w createForCallerPrincipal ---------------");
-        System.out.println("User na poczatku:");
-        System.out.println(book.getUser().getUsername());
         User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())
                 .orElseThrow(IllegalStateException::new);
 
         book.setUser(user);
         create(book, authorId);
-        System.out.println("User na koncu:");
-        System.out.println(book.getUser().getUsername());
     }
 
     //        @RolesAllowed(UserRoles.ADMIN)
@@ -157,11 +152,6 @@ public class BookService {
     }
 
     private void checkAdminRoleOrOwner(Optional<Book> book) throws EJBAccessException {
-        System.out.println("------------ w checkAdminRoleOrOwner --------------");
-        System.out.println("Admin:");
-        System.out.println(securityContext.isCallerInRole(UserRoles.ADMIN));
-        System.out.println("User");
-        System.out.println(securityContext.isCallerInRole(UserRoles.USER));
         if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
             return;
         }

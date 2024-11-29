@@ -37,7 +37,6 @@ public class UserSimpleController implements UserController {
 
     @Override
     public GetUsersResponse getUsers() {
-        System.out.println("W user controller");
         return factory.usersToResponse().apply(service.findAll());
     }
 

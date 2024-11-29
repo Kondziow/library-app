@@ -67,7 +67,6 @@ public class BookEdit implements Serializable {
     }
 
     public String saveAction() {
-        System.out.println(book);
         bookService.update(factory.updateBook().apply(bookService.find(id).orElseThrow(), book));
         return "/book/book_list.xhtml?faces-redirect=true";
     }

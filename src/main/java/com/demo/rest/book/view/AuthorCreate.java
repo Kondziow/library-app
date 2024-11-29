@@ -51,9 +51,6 @@ public class AuthorCreate implements Serializable {
     public String saveAction() {
         service.create(factory.modelToAuthor().apply(author));
         conversation.end();
-        System.out.println("==========================");
-        System.out.println(author);
-        System.out.println("==========================");
         return "/author/author_list.xhtml?faces-redirect=true";
     }
 

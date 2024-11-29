@@ -24,7 +24,6 @@ public class ModelToBookFunction implements Function<BookCreateModel, Book>, Ser
 
     @Override
     public Book apply(BookCreateModel model) {
-        System.out.println(model);
         return Book.builder()
                 .id(model.getId())
                 .title(model.getTitle())
