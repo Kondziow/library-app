@@ -36,6 +36,14 @@ public class BookPersistenceRepository implements BookRepository {
     }
 
     @Override
+    public List<Book> findByAuthorAndUser(User user, Author author) {
+        return em.createQuery("select b from Book b where b.author.id = :id and b.user = :user", Book.class)
+                .setParameter("user", user)
+                .setParameter("id", author.getId())
+                .getResultList();
+    }
+
+    @Override
     public List<Book> findAll() {
         return em.createQuery("select b from Book b", Book.class).getResultList();
     }

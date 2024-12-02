@@ -62,9 +62,10 @@ public class BookEdit implements Serializable {
                     .collect(Collectors.toList());
             this.book = factory.bookToEditModel().apply(book.get());
         } else {
-            FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Book not found");
+            FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Book not found or user is not the owner");
         }
     }
+
 
     public String saveAction() {
         bookService.update(factory.updateBook().apply(bookService.find(id).orElseThrow(), book));

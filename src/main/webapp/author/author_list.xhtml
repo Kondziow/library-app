@@ -11,7 +11,7 @@
         <article class="text--justified">
             <header><h2>Authors</h2></header>
 
-            <h:dataTable value="#{authorList.authors.authors}" var="author"
+            <h:dataTable id="authorTable" value="#{authorList.authors.authors}" var="author"
                          styleClass="table align-middle mb-0 bg-white" headerClass="bg-light">
                 <h:column>
                     <f:facet name="header">Name</f:facet>
@@ -32,20 +32,25 @@
                     </h:link>
                 </h:column>
 
-                <h:column>
-                    <f:facet name="header">Delete</f:facet>
-                    <h:form>
-                        <h:commandButton styleClass="btn" value="Delete"
-                                         action="#{authorList.deleteAction(author)}"/>
-                    </h:form>
-                </h:column>
+<!--                <h:panelGroup rendered="#{!facesContext.externalContext.isUserInRole('admin')}">-->
+                    <h:column rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                        <f:facet name="header">Delete</f:facet>
+                        <h:form>
+                            <h:commandButton styleClass="btn" value="Delete"
+                                             action="#{authorList.deleteAction(author)}">
+                                <f:ajax execute="@this" render=":authorTable"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:column>
+<!--                </h:panelGroup>-->
 
-                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+<!--                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">-->
                     <f:facet name="footer">
-                        <h:button styleClass="btn" outcome="/author/author_create.xhtml"
+                        <h:button rendered="#{facesContext.externalContext.isUserInRole('admin')}"
+                                styleClass="btn" outcome="/author/author_create.xhtml"
                                   value="Create new author"/>
                     </f:facet>
-                </h:panelGroup>
+<!--                </h:panelGroup>-->
             </h:dataTable>
         </article>
     </ui:define>

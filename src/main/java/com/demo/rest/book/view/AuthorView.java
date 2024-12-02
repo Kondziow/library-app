@@ -56,11 +56,12 @@ public class AuthorView implements Serializable {
         Optional<Author> author = authorService.find(id);
         if (author.isPresent()) {
             this.author = factory.authorToModel().apply(author.get());
-            this.books = factory.booksToModel().apply(bookService.findAllByAuthor(id).get());
+            this.books = factory.booksToModel().apply(bookService.findByAuthorForCallerPrincipal(id));
         } else {
             FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Author not found");
         }
     }
+
 
     public String deleteBook(BooksModel.Book book) {
         bookService.delete(book.getId());

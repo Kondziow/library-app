@@ -8,13 +8,13 @@ import jakarta.security.enterprise.identitystore.DatabaseIdentityStoreDefinition
 import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 
 @ApplicationScoped
-@BasicAuthenticationMechanismDefinition(realmName = "Simple RPG")
-//@FormAuthenticationMechanismDefinition(
-//        loginToContinue = @LoginToContinue(
-//                loginPage = "/authentication/form/login.xhtml",
-//                errorPage = "/authentication/form/login_error.xhtml"
-//        )
-//)
+//@BasicAuthenticationMechanismDefinition(realmName = "Simple RPG")
+@FormAuthenticationMechanismDefinition(
+        loginToContinue = @LoginToContinue(
+                loginPage = "/authentication/form/login.xhtml",
+                errorPage = "/authentication/form/login_error.xhtml"
+        )
+)
 //@CustomFormAuthenticationMechanismDefinition(
 //        loginToContinue = @LoginToContinue(
 //                loginPage = "/authentication/custom/login.xhtml",

@@ -14,11 +14,13 @@ import jakarta.ejb.*;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.SecurityContext;
 import lombok.NoArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Log
 @LocalBean
 @Stateless
 @NoArgsConstructor(force = true)
@@ -50,7 +52,9 @@ public class BookService {
 
     @RolesAllowed(UserRoles.USER)
     public Optional<Book> find(UUID id) {
-        return bookRepository.find(id);
+        Optional<Book> book = bookRepository.find(id);
+        checkAdminRoleOrOwner(book);
+        return book;
     }
 
     @RolesAllowed(UserRoles.USER)
@@ -105,6 +109,9 @@ public class BookService {
         }
         book.setAuthor(author.get());
         bookRepository.create(book);
+
+        log.info(String.format("User: %s CREATE Book ID: %s",
+                securityContext.getCallerPrincipal().getName(), book.getId()));
     }
 
     @RolesAllowed(UserRoles.USER)
@@ -116,25 +123,44 @@ public class BookService {
         create(book, authorId);
     }
 
-    //        @RolesAllowed(UserRoles.ADMIN)
-//    @PermitAll
     @RolesAllowed(UserRoles.USER)
     public void update(Book book) {
         checkAdminRoleOrOwner(bookRepository.find(book.getId()));
         bookRepository.update(book);
+
+        log.info(String.format("User: %s UPDATE Book ID: %s",
+                securityContext.getCallerPrincipal().getName(), book.getId()));
     }
 
     @RolesAllowed(UserRoles.USER)
-//    @PermitAll
     public void delete(UUID id) {
         checkAdminRoleOrOwner(bookRepository.find(id));
         bookRepository.delete(bookRepository.find(id).orElseThrow());
+
+        log.info(String.format("User: %s DELETE Book ID: %s",
+                securityContext.getCallerPrincipal().getName(), id));
     }
 
     @RolesAllowed(UserRoles.USER)
+    public List<Book> findByAuthorForCallerPrincipal(UUID id) {
+        if (securityContext.isCallerInRole(UserRoles.ADMIN)) {
+            return findAllByAuthor(id).get();
+        }
+        User user = userRepository.findByLogin(securityContext.getCallerPrincipal().getName())
+                .orElseThrow(IllegalStateException::new);
+        Author author = Author.builder().id(id).build();
+        return findAllByAuthorAndUser(user, author);
+    }
+
+    @RolesAllowed(UserRoles.ADMIN)
     public Optional<List<Book>> findAllByAuthor(UUID id) {
         return authorRepository.find(id)
                 .map(bookRepository::findAllByAuthor);
+    }
+
+    @RolesAllowed(UserRoles.USER)
+    public List<Book> findAllByAuthorAndUser(User user, Author author) {
+        return bookRepository.findByAuthorAndUser(user, author);
     }
 
     @RolesAllowed(UserRoles.ADMIN)

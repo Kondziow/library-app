@@ -6,6 +6,7 @@ import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.ModelFunctionFactory;
 import jakarta.ejb.EJB;
+import jakarta.ejb.EJBAccessException;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -43,11 +44,16 @@ public class BookView implements Serializable {
     }
 
     public void init() throws IOException {
-        Optional<Book> book = service.find(id);
-        if (book.isPresent()) {
-            this.book = factory.bookToModel().apply(book.get());
-        } else {
-            FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Book not found");
+        try {
+            Optional<Book> book = service.find(id);
+            if (book.isPresent()) {
+                this.book = factory.bookToModel().apply(book.get());
+            } else {
+                FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Book not found");
+            }
+        } catch (EJBAccessException e) {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            facesContext.getExternalContext().responseSendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
         }
     }
 }
