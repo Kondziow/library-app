@@ -25,6 +25,7 @@ public class BookPersistenceRepository implements BookRepository {
 
     @Override
     public List<Book> findAllByAuthor(Author author) {
+        em.refresh(em.find(Author.class, author.getId()));
         return author.getBooks();
     }
 

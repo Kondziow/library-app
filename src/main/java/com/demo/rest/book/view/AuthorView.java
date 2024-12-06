@@ -63,8 +63,8 @@ public class AuthorView implements Serializable {
     }
 
 
-    public String deleteBook(BooksModel.Book book) {
+    public void deleteBook(BooksModel.Book book) {
         bookService.delete(book.getId());
-        return "author_view?faces-redirect=true&id=" + this.id;
+        this.books = factory.booksToModel().apply(bookService.findByAuthorForCallerPrincipal(id));
     }
 }

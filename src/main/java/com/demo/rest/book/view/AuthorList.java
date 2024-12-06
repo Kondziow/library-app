@@ -39,8 +39,8 @@ public class AuthorList implements Serializable {
         return authors;
     }
 
-    public String deleteAction(AuthorsModel.Author author) {
+    public void deleteAction(AuthorsModel.Author author) {
         service.delete(author.getId());
-        return "author_list?faces-redirect=true";
+        authors = factory.authorsToModel().apply(service.findAll());
     }
 }
