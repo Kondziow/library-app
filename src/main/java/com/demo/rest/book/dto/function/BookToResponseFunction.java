@@ -13,6 +13,7 @@ public class BookToResponseFunction implements Function<Book, GetBookResponse> {
                 .title(book.getTitle())
                 .releaseDate(book.getReleaseDate())
                 .genre(book.getGenre())
+                .version(book.getVersion())
                 .build();
     }
 }

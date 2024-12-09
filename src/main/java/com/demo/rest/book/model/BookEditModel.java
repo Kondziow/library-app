@@ -20,4 +20,5 @@ public class BookEditModel {
     private Genre genre;
     private AuthorModel author;
     private UserModel user;
+    private Long version;
 }

@@ -7,11 +7,14 @@ import com.demo.rest.book.service.AuthorService;
 import com.demo.rest.book.service.BookService;
 import com.demo.rest.component.ModelFunctionFactory;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.TransactionalException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +31,7 @@ public class BookEdit implements Serializable {
     private BookService bookService;
     private AuthorService authorService;
     private final ModelFunctionFactory factory;
+    private final FacesContext facesContext;
 
     @Setter
     @Getter
@@ -37,11 +41,15 @@ public class BookEdit implements Serializable {
     private BookEditModel book;
 
     @Getter
+    private BookEditModel unsavedBook;
+
+    @Getter
     private List<AuthorModel> authors;
 
     @Inject
-    public BookEdit(ModelFunctionFactory factory) {
+    public BookEdit(ModelFunctionFactory factory, FacesContext facesContext) {
         this.factory = factory;
+        this.facesContext = facesContext;
     }
 
     @EJB
@@ -62,13 +70,24 @@ public class BookEdit implements Serializable {
                     .collect(Collectors.toList());
             this.book = factory.bookToEditModel().apply(book.get());
         } else {
-            FacesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Book not found or user is not the owner");
+            facesContext.getCurrentInstance().getExternalContext().responseSendError(HttpServletResponse.SC_NOT_FOUND, "Book not found or user is not the owner");
         }
     }
 
 
-    public String saveAction() {
-        bookService.update(factory.updateBook().apply(bookService.find(id).orElseThrow(), book));
-        return "/book/book_list.xhtml?faces-redirect=true";
+    public String saveAction() throws IOException {
+        try {
+            bookService.update(factory.updateBook().apply(bookService.find(id).orElseThrow(), book));
+            String viewId = FacesContext.getCurrentInstance().getViewRoot().getViewId();
+            return viewId + "?faces-redirect=true&includeViewParams=true";
+//            return "/book/book_list.xhtml?faces-redirect=true";
+        } catch (Exception ex) {
+            if (ex.getCause() instanceof OptimisticLockException) {
+                unsavedBook = book;
+                init();
+                facesContext.addMessage(null, new FacesMessage("Version collision."));
+            }
+            return null;
+        }
     }
 }

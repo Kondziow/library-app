@@ -3,6 +3,7 @@ package com.demo.rest.book.model.function;
 import com.demo.rest.book.entity.Author;
 import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.model.BookEditModel;
+import com.demo.rest.user.entity.User;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -23,15 +24,22 @@ public class UpdateBookWithModelFunction implements BiFunction<Book, BookEditMod
     }
 
     @Override
-    public Book apply(Book entity, BookEditModel request) {
+    public Book apply(Book entity, BookEditModel model) {
         return Book.builder()
                 .id(entity.getId())
-                .title(request.getTitle())
-                .releaseDate(convertStringToLocalDate(request.getReleaseDate()))
-                .genre(request.getGenre())
+                .title(model.getTitle())
+                .releaseDate(convertStringToLocalDate(model.getReleaseDate()))
+                .genre(model.getGenre())
                 .author(Author.builder()
                         .id(entity.getAuthor().getId())
                         .build())
+                .user(User.builder()
+                        .id(entity.getUser().getId())
+                        .build())
+                .version(model.getVersion())
+                .creationDateTime(entity.getCreationDateTime())
+                .updateDateTime(entity.getUpdateDateTime())
+                .updateDateTime(entity.getUpdateDateTime())
                 .build();
     }
 }

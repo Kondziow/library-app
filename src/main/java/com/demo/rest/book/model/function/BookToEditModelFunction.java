@@ -27,6 +27,7 @@ public class BookToEditModelFunction implements Function<Book, BookEditModel>, S
                         .name(entity.getAuthor().getName())
                         .build())
                 .user(userToModelFunction.apply(entity.getUser()))
+                .version(entity.getVersion())
                 .build();
     }
 }

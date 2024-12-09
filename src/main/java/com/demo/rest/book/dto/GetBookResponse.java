@@ -18,4 +18,5 @@ public class GetBookResponse {
     private String title;
     private LocalDate releaseDate;
     private Genre genre;
+    private Long version;
 }

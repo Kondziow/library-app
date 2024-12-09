@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -31,4 +32,23 @@ public class Book implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_name")
     private User user;
+
+    @Version
+    private Long version;
+
+    @Column(name = "creation_date_time")
+    private LocalDateTime creationDateTime;
+
+    @Column(name = "update_date_time")
+    private LocalDateTime updateDateTime;
+
+    @PrePersist
+    public void updateCreationDateTime() {
+        creationDateTime = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void updateModificationDateTime() {
+        updateDateTime = LocalDateTime.now();
+    }
 }

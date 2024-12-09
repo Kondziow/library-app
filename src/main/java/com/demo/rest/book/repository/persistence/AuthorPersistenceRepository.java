@@ -1,11 +1,13 @@
 package com.demo.rest.book.repository.persistence;
 
 import com.demo.rest.book.entity.Author;
-import com.demo.rest.book.entity.Book;
 import com.demo.rest.book.repository.api.AuthorRepository;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +24,13 @@ public class AuthorPersistenceRepository implements AuthorRepository {
 
     @Override
     public List<Author> findAll() {
-        return em.createQuery("select a from Author a", Author.class).getResultList();
+//        return em.createQuery("select a from Author a", Author.class).getResultList();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Author> query = cb.createQuery(Author.class);
+        Root<Author> root = query.from(Author.class);
+        query.select(root);
+        return em.createQuery(query).getResultList();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.demo.rest.book.model;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,5 +28,8 @@ public class BooksModel {
     public static class Book {
         private UUID id;
         private String title;
+        private Long version;
+        private LocalDateTime creationDateTime;
+        private LocalDateTime updateDateTime;
     }
 }

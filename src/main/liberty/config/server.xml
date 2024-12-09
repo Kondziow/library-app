@@ -12,28 +12,6 @@
         <feature>appSecurity-5.0</feature>
     </featureManager>
 
-<!--    <jdbcRegistry id="JDBCUserRegistry" jndiName="jdbc/SimpleRpgCharacters">-->
-<!--        <userTable tableName="users" idColumn="id" passwordColumn="password" />-->
-<!--        <groupTable tableName="users__roles" idColumn="id" groupColumn="role" />-->
-<!--        <groupMembershipTable tableName="users__roles" idColumn="id" groupColumn="role" />-->
-<!--    </jdbcRegistry>-->
-
-<!--    <basicRegistry>-->
-<!--        <user name="admin-service" password="adminadmin"/>-->
-<!--        <group name="admin" user="admin-service"/>-->
-<!--    </basicRegistry>-->
-
-<!--    <application-bnd>-->
-<!--        <security-role name="admin">-->
-<!--            <group name="admin"/>-->
-<!--            <run-as userid="admin-service"/>-->
-<!--        </security-role>-->
-<!--        <security-role name="user">-->
-<!--            <group name="user"/>-->
-<!--        </security-role>-->
-<!--    </application-bnd>-->
-
-
     <application type="war" location="labs1-1.0-SNAPSHOT.war">
         <application-bnd>
             <security-role name="admin">
@@ -61,9 +39,8 @@
         <fileset dir="${wlp.install.dir}/usr/servers/defaultServer/lib/global/" includes="h2-2.2.220.jar"/>
     </library>
 
-<!--    <logging consoleLogLevel="INFO"/>-->
-
-    <logging consoleLogLevel="INFO" traceSpecification="*=info">
-        <file name="logs/messages.log" maxFileSize="20" maxFiles="5"/>
-    </logging>
+    <logging consoleLogLevel="INFO"/>
+    <logging traceSpecification="eclipselink.sql=all"
+             traceFileName="stdout"
+             traceFormat="BASIC"/>
 </server>

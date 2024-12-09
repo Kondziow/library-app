@@ -1,5 +1,7 @@
 package com.demo.rest.book.controller.rest;
 
+import com.demo.rest.authorization.exception.NoPrincipalException;
+import com.demo.rest.authorization.exception.NoRolesException;
 import com.demo.rest.book.controller.api.BookController;
 import com.demo.rest.book.dto.GetBookResponse;
 import com.demo.rest.book.dto.GetBooksResponse;
@@ -12,6 +14,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.EJBAccessException;
 import jakarta.inject.Inject;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.TransactionalException;
 import jakarta.ws.rs.*;
@@ -97,19 +100,29 @@ public class BookRestController implements BookController {
 
     @Override
     public void updateBook(UUID id, PatchBookRequest request) {
-        service.find(id).ifPresentOrElse(
-                entity -> {
-                    try {
-                        service.update(factory.updateBook().apply(entity, request));
-                    } catch (EJBAccessException ex) {
-                        log.log(Level.WARNING, ex.getMessage(), ex);
-                        throw new ForbiddenException(ex.getMessage());
+        try {
+            service.find(id).ifPresentOrElse(
+                    entity -> {
+                        try {
+                            service.update(factory.updateBook().apply(entity, request));
+                        } catch (EJBAccessException ex) {
+                            log.log(Level.WARNING, ex.getMessage(), ex);
+                            throw new ForbiddenException(ex.getMessage());
+                        }
+                    },
+                    () -> {
+                        throw new NotFoundException();
                     }
-                },
-                () -> {
-                    throw new NotFoundException();
-                }
-        );
+            );
+        } catch (NoRolesException ex) {
+            throw new ForbiddenException();
+        } catch (NoPrincipalException ex) {
+            throw new NotAuthorizedException("");
+        } catch (TransactionalException ex) {
+            if (ex.getCause() instanceof OptimisticLockException) {
+                throw new BadRequestException(ex.getCause());
+            }
+        }
     }
 
     @Override

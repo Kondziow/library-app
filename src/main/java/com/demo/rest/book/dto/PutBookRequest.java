@@ -19,4 +19,6 @@ public class PutBookRequest {
     private Genre genre;
 
     private UUID user;
+
+    private Long version;
 }
